@@ -142,7 +142,8 @@
 ---
 
 # ✔️ 시스템 아키텍쳐 <a id="시스템-아키텍쳐"> 
-![image](https://github.com/user-attachments/assets/2446ba13-add2-46ba-9ee5-d8c15ad0cfff)
+![image](https://github.com/user-attachments/assets/bc7fbd6e-7594-4462-bce7-afea4a7da647)
+
 
 ---
 
