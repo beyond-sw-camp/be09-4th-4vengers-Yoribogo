@@ -131,14 +131,9 @@
 # ✔️ UI설계
 
 <details>
-  <summary>질문 1</summary>
+  <summary>홈페이지 & 요리 추천</summary>
 
   ![질문 1](https://github.com/user-attachments/assets/ff026a5e-c7de-48d4-8697-e06c1567fc26)
-
-</details>
-
-<details>
-  <summary>질문 2</summary>
 
   ![질문 2](https://github.com/user-attachments/assets/c1ae70a9-ec9b-4c10-a450-9df17ec21d89)
 
