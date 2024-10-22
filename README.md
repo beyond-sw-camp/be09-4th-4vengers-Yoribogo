@@ -448,7 +448,7 @@ pipeline {
 </details>
 
 <details>
-  <summary>7.6 회원 재문의</summary>
+  <summary>7.6 문의 상세정보 조회</summary>
   <br>
   7.6.1 문의 작성자이거나 관리자일 경우
   <img src="https://github.com/user-attachments/assets/b03e68cc-8eeb-4b1f-bb28-a5161f17bf01" alt="">
