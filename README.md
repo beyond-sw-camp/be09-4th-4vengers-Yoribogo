@@ -407,7 +407,12 @@ pipeline {
 
 <details>
    <summary>6.2 비밀번호 변경</summary>
+   <br>
+   6.2.1 비밀번호 변경
    <img src="https://github.com/user-attachments/assets/a10ab92e-2b0c-4642-86a3-6427c32189fa" alt="">
+   <br><br>
+   6.2.2 변경된 비밀번호로 로그인
+   <img src="https://github.com/user-attachments/assets/c364b89c-0948-462a-b724-b3f0b191e689" alt="">
 </details>
 
 <details>
