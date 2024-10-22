@@ -32,7 +32,7 @@
 | <img src="https://github.com/user-attachments/assets/5a0d8aa8-0a1f-41f3-a93f-b2985c1765d6" height="100"/> | <img src="https://github.com/user-attachments/assets/79d48cf7-bdd4-4ec1-831c-bb57d5d9f57d" height="100"/> | <img src="https://github.com/user-attachments/assets/74133185-5305-4361-a9e0-52e76f67de3d" height="100"/> | <img src="https://github.com/user-attachments/assets/a17e5ef4-f7be-48fb-ae41-5cd3b27f5918" height="100"/> | <img src="https://github.com/user-attachments/assets/00ef7243-5ac8-4f3a-8b43-2271ee79665c" height="100"/> | <img src="https://github.com/user-attachments/assets/8381e8af-6a25-4f00-8a5e-454323d1f340" height="100"/> |
 | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | 박경희 | 윤채연 | 전기범 | 장민근 | 조창욱 | 최해관 | 
-| [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/iwillbfine) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/yncayn) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/woodart8) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/caolian2003) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/Chochanguk) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/woodart8) |
+| [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/iwillbfine) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/yncayn) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/woodart8) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/caolian2003) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/Chochanguk) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/Haegwan-Choe) |
 | ISTP | ISFP | INFJ | INTP | ESTJ | ENTJ |
 
 ---
@@ -65,9 +65,10 @@
 
 ### 5. DevOps <a id="5-devops"></a>
 
-| Docker                                                                                    | Jenkins                                                                                            |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| ![Docker](https://img.shields.io/badge/Docker-2496ED.svg?&logo=docker&logoColor=white)       | ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?logo=jenkins&logoColor=white)                     |
+| Docker                                                                                    | Jenkins                                                                                            | Kubernetes                                                                                           |
+| ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| ![Docker](https://img.shields.io/badge/Docker-2496ED.svg?&logo=docker&logoColor=white)       | ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?logo=jenkins&logoColor=white)                 | ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5.svg?&logo=kubernetes&logoColor=white)      |
+
 
 ### 6. Tool <a id="6-tool"></a>
 
@@ -167,15 +168,15 @@
 
 <details>
   <summary>나만의 레시피 게시판</summary>
+   
+<img width="1231" alt="스크린샷 2024-10-22 오후 4 17 07" src="https://github.com/user-attachments/assets/f8bbc4c5-5a36-403b-89eb-12a114782c9a">
 
-  ![나만의 레시피 게시판](https://github.com/user-attachments/assets/975fbc26-b7ac-4966-88f1-ad53c1e6a2bc)
 
 </details>
 
 <details>
   <summary>문의 게시판</summary>
-
-  ![문의 게시판](https://github.com/user-attachments/assets/e9833b51-96fd-406f-b7ed-c45a425a4cfd)
+<img width="1055" alt="스크린샷 2024-10-22 오후 4 18 16" src="https://github.com/user-attachments/assets/f878cff6-3539-4ff2-bb3e-e76c3db2ec15">
 
 </details>
 
