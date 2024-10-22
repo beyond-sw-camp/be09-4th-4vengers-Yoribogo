@@ -12,7 +12,7 @@
    - [프로젝트 소개](#프로젝트-소개)
    - [프로젝트 배경](#프로젝트-배경)
    - [유사 서비스와의 차별성](#유사-서비스와의-차별성)
-4. [DDD](#DDD)
+4. [DDD](#DDD-설계)
    - [DDD Bounded Context](#DDD-Bounded-Context)
    - [DDD 연관 관계](#DDD-연관-관계)
 5. [WBS](#WBS)
@@ -131,9 +131,9 @@
 
 ------
    
-# ✔️ DDD <a id="DDD">
+# ✔️ DDD<a id="DDD-설계">
 
-### 1. Domain-Driven Design - Bounded Context <a id="DDD-Bounded-Context">
+### 1. Domain-Driven Design - Bounded Context<a id="DDD-Bounded-Context">
 
 ![devops project - Step 5  Bounded Context](https://github.com/user-attachments/assets/8bc565a9-7a87-47f6-9759-1ce08e364dd3)
 
