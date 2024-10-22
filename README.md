@@ -12,7 +12,7 @@
    - [프로젝트 소개](#프로젝트-소개)
    - [프로젝트 배경](#프로젝트-배경)
    - [유사 서비스와의 차별성](#유사-서비스와의-차별성)
-4. [DDD](#DDD-설계)
+4. [DDD](#DDD)
    - [DDD Bounded Context](#DDD-Bounded-Context)
    - [DDD 연관 관계](#DDD-연관-관계)
 5. [WBS](#WBS)
@@ -131,7 +131,7 @@
 
 ------
    
-# ✔️ DDD<a id="DDD-설계">
+# ✔️ DDD<a id="DDD">
 
 ### 1. Domain-Driven Design - Bounded Context<a id="DDD-Bounded-Context">
 
