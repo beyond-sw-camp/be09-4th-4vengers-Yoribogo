@@ -13,8 +13,8 @@
    - [프로젝트 배경](#프로젝트-배경)
    - [유사 서비스와의 차별성](#유사-서비스와의-차별성)
 4. [DDD](#ddd)
-   - [DDD Bounded Context](#ddd-bounded-context)
-   - [DDD 연관 관계 매핑](#ddd-연관-관계-매핑)
+   - [Bounded Context](#bounded-context)
+   - [연관 관계 매핑](#연관-관계-매핑)
 5. [WBS](#wbs)
 6. [시스템 아키텍쳐](#시스템-아키텍쳐)
 7. [UI 설계](#ui-설계)
@@ -131,15 +131,15 @@
 
 ------
    
-# ✔️ DDD <a id="ddd">
+# ✔️ DDD(Domain-Driven Design) <a id="ddd">
 
-### 1. Domain-Driven Design - Bounded Context<a id="ddd-bounded-context">
+### 1. Bounded Context<a id="=bounded-context">
 
 ![devops project - Step 5  Bounded Context](https://github.com/user-attachments/assets/8bc565a9-7a87-47f6-9759-1ce08e364dd3)
 
 ---
 
-### 2. DDD - 연관 관계 매핑 <a id="ddd-연관-관계-매핑">
+### 2. 연관 관계 매핑 <a id="=연관-관계-매핑">
 ![image](https://github.com/user-attachments/assets/ca16faff-789f-4fa6-8a46-921636d6f3e3)
 
 ---
