@@ -133,13 +133,13 @@
    
 # ✔️ DDD(Domain-Driven Design) <a id="ddd">
 
-### 1. Bounded Context<a id="=bounded-context">
+### 1. Bounded Context<a id="bounded-context">
 
 ![devops project - Step 5  Bounded Context](https://github.com/user-attachments/assets/8bc565a9-7a87-47f6-9759-1ce08e364dd3)
 
 ---
 
-### 2. 연관 관계 매핑 <a id="=연관-관계-매핑">
+### 2. 연관 관계 매핑 <a id="연관-관계-매핑">
 ![image](https://github.com/user-attachments/assets/ca16faff-789f-4fa6-8a46-921636d6f3e3)
 
 ---
