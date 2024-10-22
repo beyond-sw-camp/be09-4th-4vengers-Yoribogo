@@ -75,13 +75,10 @@
 | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"> &nbsp; | <img src="https://img.shields.io/badge/DA%23-0B6121.svg?style=flat&logo=draw.io&logoColor=white"> &nbsp; | ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=flat&logo=intellij-idea&logoColor=white) | ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=flat&logo=visual-studio-code&logoColor=white) |
 
-
+---
 
 ## 🍀 프로젝트 개요<a id="프로젝트-개요">
 무엇을 먹을지 고민하는 우리에게 꼭 필요한 AI기반 레시피 추천 서비스입니다.
-
----
-
 
 ### 1. 프로젝트 소개<a id="프로젝트-소개">
 
@@ -92,8 +89,6 @@
 ✔️ AI가 당신의 취향과 상황에 맞는 최적의 레시피를 추천해 드립니다 !
 
 ✔️ 공공데이터를 활용한 신뢰할 수 있는 레시피 정보를 제공합니다 !!
-
----
 
 ### 2. 프로젝트 배경<a id="프로젝트-배경">
 
@@ -118,7 +113,6 @@
 - 매일의 식사가 새로운 즐거움이 되길 바라면서, 여러분의 주방에 작은 변화를 가져다 드리고 싶어요.
 
 **우리의 서비스와 함께 새로운 요리에 도전해보는 건 어떨까요?** 🍳👨‍🍳👩‍🍳
-------
 
 ### 3. 유사 서비스와의 차별성<a id="유사-서비스와의-차별성">
 
@@ -129,15 +123,13 @@
 | 만개의레시피  | X       | O       | O        | O       |
 | 버터얌    | X       | O       | O        | O       |
 
-------
+---
    
 # ✔️ DDD(Domain-Driven Design) <a id="ddd">
 
 ### 1. Bounded Context<a id="bounded-context">
 
 ![devops project - Step 5  Bounded Context](https://github.com/user-attachments/assets/8bc565a9-7a87-47f6-9759-1ce08e364dd3)
-
----
 
 ### 2. 연관 관계 매핑 <a id="연관-관계-매핑">
 ![image](https://github.com/user-attachments/assets/ca16faff-789f-4fa6-8a46-921636d6f3e3)
@@ -147,8 +139,12 @@
 # ✔️ WBS <a id="wbs">
 ![wbs_devops](https://github.com/user-attachments/assets/57e8bd29-a323-4c89-986b-5d76fc694f07)
 
+---
+
 # ✔️ 시스템 아키텍쳐 <a id="시스템-아키텍쳐"> 
 ![image](https://github.com/user-attachments/assets/0fae1883-04a2-4243-bdba-f129682f936d)
+
+---
 
 # ✔️ UI설계 <a id="ui-설계">
 
@@ -190,23 +186,22 @@
 </details>
 
 ---
-<br>
 
 # ✔️ 데이터베이스 모델링<a id="데이터베이스-모델링">
 ### 1. 개념 모델링<a id="개념-모델링">
 ![image](https://github.com/user-attachments/assets/7d9fa206-fdac-4a4b-b707-ba8545c19475)
 
----
 <br>
 
 ### 2. 논리 모델링<a id="논리-모델링">
 ![논리모델링](https://github.com/user-attachments/assets/6adb2f33-b29b-469a-855f-433e92d39fb8)
 
----
 <br>
 
 ### 3. 물리 모델링<a id="물리-모델링">
 ![물리모델링](https://github.com/user-attachments/assets/c04e7d8c-dc5f-4593-aab6-30b65c17e564)
+
+---
 
 # ✔️ JenkinsScript<a id="jenkins-script">
 
@@ -291,7 +286,8 @@ pipeline {
     }
 }
 ```
-<br>
+
+---
 
 # ✔️ 결과 화면<a id="결과-화면">
 
@@ -502,7 +498,7 @@ pipeline {
   <img src="https://github.com/user-attachments/assets/7b78add8-3fd7-4eca-84be-4757c3c27620" alt="">
 </details>
 
-<br>
+---
 
 # ✔️ 동료 평가<a id="동료-평가">
 
