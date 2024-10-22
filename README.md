@@ -12,17 +12,17 @@
    - [프로젝트 소개](#프로젝트-소개)
    - [프로젝트 배경](#프로젝트-배경)
    - [유사 서비스와의 차별성](#유사-서비스와의-차별성)
-4. [DDD](#시스템-아키텍쳐)
-   - [DDD Bounded Context](#시스템-아키텍쳐)
-   - [DDD 연관 관계](#시스템-아키텍쳐)
-5. [WBS](#시스템-아키텍쳐)
+4. [DDD](#ddd)
+   - [DDD Bounded Context](#ddd-bounded-context)
+   - [DDD 연관 관계](#ddd-연관-관계)
+5. [WBS](#wbs)
 6. [시스템 아키텍쳐](#시스템-아키텍쳐)
-7. [UI 설계](#시스템-아키텍쳐)
+7. [UI 설계](#ui-설계)
 8. [데이터베이스 모델링](#데이터베이스-모델링)
    - [개념 모델링](#개념-모델링)
    - [논리 모델링](#논리-모델링)
    - [물리 모델링](#물리-모델링)
-9. [JenkinsScript](#시스템-아키텍쳐)
+9. [JenkinsScript](#jenkins-script)
 10. [결과 화면](#결과-화면)
 11. [동료 평가](#동료-평가)
 
@@ -131,26 +131,26 @@
 
 ------
    
-# ✔️ DDD <a id="시스템-아키텍쳐">
+# ✔️ DDD <a id="ddd">
 
-### 1. Domain-Driven Design - Bounded Context<a id="DDD-Bounded-Context">
+### 1. Domain-Driven Design - Bounded Context<a id="ddd-bounded-context">
 
 ![devops project - Step 5  Bounded Context](https://github.com/user-attachments/assets/8bc565a9-7a87-47f6-9759-1ce08e364dd3)
 
 ---
 
-### 2. DDD - 연관 관계 매핑 <a id="시스템-아키텍쳐">
+### 2. DDD - 연관 관계 매핑 <a id="ddd-연관-관계-매핑">
 ![image](https://github.com/user-attachments/assets/ca16faff-789f-4fa6-8a46-921636d6f3e3)
 
 ---
 
-# ✔️ WBS <a id="시스템-아키텍쳐">
+# ✔️ WBS <a id="wbs">
 ![wbs_devops](https://github.com/user-attachments/assets/57e8bd29-a323-4c89-986b-5d76fc694f07)
 
 # ✔️ 시스템 아키텍쳐 <a id="시스템-아키텍쳐"> 
 ![image](https://github.com/user-attachments/assets/0fae1883-04a2-4243-bdba-f129682f936d)
 
-# ✔️ UI설계 <a id="시스템-아키텍쳐">
+# ✔️ UI설계 <a id="ui-설계계">
 
 <details>
   <summary>홈페이지 & 요리 추천</summary>
@@ -208,7 +208,7 @@
 ### 3. 물리 모델링<a id="물리-모델링">
 ![물리모델링](https://github.com/user-attachments/assets/c04e7d8c-dc5f-4593-aab6-30b65c17e564)
 
-# ✔️ JenkinsScript<a id="시스템-아키텍쳐">
+# ✔️ JenkinsScript<a id="jenkins-script">
 
 [Jenkins 백엔드 CI/CD 깃허브](https://github.com/hanwha-be09-4vengers/Yoribogo-Server)
 ```groovy
