@@ -14,7 +14,7 @@
    - [유사 서비스와의 차별성](#유사-서비스와의-차별성)
 4. [DDD](#ddd)
    - [DDD Bounded Context](#ddd-bounded-context)
-   - [DDD 연관 관계](#ddd-연관-관계)
+   - [DDD 연관 관계 매핑](#ddd-연관-관계-매핑)
 5. [WBS](#wbs)
 6. [시스템 아키텍쳐](#시스템-아키텍쳐)
 7. [UI 설계](#ui-설계)
