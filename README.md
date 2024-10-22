@@ -150,7 +150,7 @@
 # ✔️ 시스템 아키텍쳐 <a id="시스템-아키텍쳐"> 
 ![image](https://github.com/user-attachments/assets/0fae1883-04a2-4243-bdba-f129682f936d)
 
-# ✔️ UI설계 <a id="ui-설계계">
+# ✔️ UI설계 <a id="ui-설계">
 
 <details>
   <summary>홈페이지 & 요리 추천</summary>
