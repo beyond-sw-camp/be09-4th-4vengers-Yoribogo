@@ -95,7 +95,6 @@
 
 ---
 
-
 ### 2. 프로젝트 배경<a id="프로젝트-배경">
 
 안녕하세요, 여러분! 🍽️ '오늘 뭐 먹지?' 하면서 고민해본 적 있으시죠? 바로 이 고민에서 우리 프로젝트가 시작됐어요.
@@ -130,12 +129,11 @@
 | 만개의레시피  | X       | O       | O        | O       |
 | 버터얌    | X       | O       | O        | O       |
 
-
 ------
    
-# ✔️ DDD<a id="DDD">
+# ✔️ DDD <a id="DDD">
 
-### 1. Domain-Driven Design - Bounded Context<a id="DDD-Bounded-Context">
+### 1. Domain-Driven Design - Bounded Context <a id="DDD-Bounded-Context">
 
 ![devops project - Step 5  Bounded Context](https://github.com/user-attachments/assets/8bc565a9-7a87-47f6-9759-1ce08e364dd3)
 
@@ -146,13 +144,13 @@
 
 ---
 
-# ✔️ WBS<a id="WBS">
+# ✔️ WBS <a id="WBS">
 ![wbs_devops](https://github.com/user-attachments/assets/57e8bd29-a323-4c89-986b-5d76fc694f07)
 
-# ✔️ 시스템 아키텍쳐<a id="시스템-아키텍쳐"> 
+# ✔️ 시스템 아키텍쳐 <a id="시스템-아키텍쳐"> 
 ![image](https://github.com/user-attachments/assets/0fae1883-04a2-4243-bdba-f129682f936d)
 
-# ✔️ UI설계<a id="UI-설계">
+# ✔️ UI설계 <a id="UI-설계">
 
 <details>
   <summary>홈페이지 & 요리 추천</summary>
