@@ -1,0 +1,12 @@
+package com.avengers.yoribogo.openai.aggregate;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ImageData {
+    private String url;
+}

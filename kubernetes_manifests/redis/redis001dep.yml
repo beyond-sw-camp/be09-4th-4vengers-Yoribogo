@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: chochanguk/k8s_yoribogo_redis:latest
+        ports:
+        - containerPort: 6379
+        env: # 환경 변수 추가
+        - name: REDIS_HOST
+          value: "redis-service" # Redis 서비스 이름
+        - name: REDIS_PORT
+          value: "6379" # Redis 포트

@@ -1,0 +1,4 @@
+# redis.gitignore
+
+# redis가 설정된 redis.conf 파일 무시
+redis.conf
