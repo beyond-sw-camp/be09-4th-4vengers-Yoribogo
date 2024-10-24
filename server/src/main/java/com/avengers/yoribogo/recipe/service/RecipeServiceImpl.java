@@ -218,10 +218,12 @@ public class RecipeServiceImpl implements RecipeService {
             String prompt = "날씨: '" + requestRecommendDTO.getFirst() + "', 기분: '" + requestRecommendDTO.getSecond() +
                     "', 인원: '" + requestRecommendDTO.getThird() + "', 채식 여부: '" + requestRecommendDTO.getFourth() +
                     "', 추가 사항: '" + requestRecommendDTO.getFifth() + "'. " +
-                    "추가 사항이 요리와 관련된 경우(예: 알레르기 정보, 선호하는 음식, 상황), 그 요청을 우선 고려하여 요리를 추천해줘. " +
+                    "추가 사항이 요리와 관련된 경우(예: 알레르기 정보, 못 먹는 음식, 선호하는 음식, 싫어하는 음식, 상황과 관련된 정보), " +
+                    "그 요청을 가장 우선 고려하여 요리를 추천해줘. " +
                     "비관련 사항(예: 유명 인물 이름, 해킹 방법 등, 성적인 단어)이 포함된 경우에는 요리를 추천하지 말고 '에러'라고 답해줘. " +
                     "요리를 추천하는 경우에는 다양한 나라의 요리 중 하나를 " +
-                    "'한국어 요리 이름(Detailed English description including the dish name)' 형식으로 한 문장으로 추천해줘. " +
+                    "'요약된 한국어 요리 이름(Detailed English description including the dish name)' " +
+                    "형식으로 앞과 뒤에 말이나 특수문자, 기호를 붙이지 말고 한 문장으로 추천해줘. " +
                     "영어 설명에는 영어 요리 이름을 포함하고, 설명은 20단어 이내로 간결하게 해줘.";
 
             String aiAnswerMenu = openAIService.getRecommend(prompt).getChoices().get(0).getMessage().getContent();
@@ -234,9 +236,6 @@ public class RecipeServiceImpl implements RecipeService {
             // 앞뒤 특수문자 제거
             String trimmedAiAnswerMenu = trimSpecialCharacters(koreanName);
             String trimmedDescription = trimSpecialCharacters(description);
-
-            log.info(trimmedAiAnswerMenu);
-            log.info(trimmedDescription);
 
             // 2단계: 요리 레시피 테이블 조회하기
 
@@ -279,13 +278,13 @@ public class RecipeServiceImpl implements RecipeService {
             String ingredientsPrompt =
                     trimmedAiAnswerMenu + "에 필요한 재료를 ','로 구분해 양과 함께 알려줘. 예: '설탕 2스푼'. 특수문자나 불필요한 말은 제외.";
             String aiAnswerIngredients = openAIService.getRecommend(ingredientsPrompt).getChoices().get(0).getMessage().getContent();
-            System.out.println(aiAnswerIngredients);
 
             // ':'가 있는 경우, ':' 이후의 문자열만 남기기
             aiAnswerIngredients = parseString(aiAnswerIngredients);
 
             // 앞뒤 특수문자 제거
             String trimmedAiAnswerIngredients = trimSpecialCharacters(aiAnswerIngredients);
+            log.info(trimmedAiAnswerIngredients);
 
             // 6단계: AI가 생성한 요리 등록
 
@@ -293,7 +292,7 @@ public class RecipeServiceImpl implements RecipeService {
             RecipeDTO newRecipeDTO = RecipeDTO
                     .builder()
                     .menuName(trimmedAiAnswerMenu)
-                    .menuIngredient(aiAnswerIngredients)
+                    .menuIngredient(trimmedAiAnswerIngredients)
                     .menuImage(null)
                     .menuType(MenuType.AI)
                     .userId(1L)
@@ -301,15 +300,6 @@ public class RecipeServiceImpl implements RecipeService {
 
             // 엔티티 생성
             newRecipeDTO = registRecipe(newRecipeDTO);
-
-            // 7단계: AI가 추천한 요리의 레시피를 물어보기
-            String recipePrompt = trimmedAiAnswerMenu + "에 필요한 재료가 " +
-                    trimmedAiAnswerIngredients + "일 때, " +
-                    trimmedAiAnswerMenu + "의 레시피를 최대 6단계로 요약해줘. " +
-                    "각 단계에 번호만 붙여 '1. 쌀을 씻습니다.'와 같은 형식으로 간결하게 작성해줘.";
-
-            // 레시피 매뉴얼 생성 비동기 처리
-            recipeManualService.registAIRecipeManual(newRecipeDTO.getRecipeId(), recipePrompt);
 
             // 요리 이미지 생성 비동기 처리
             imageService.generateImageAsync(trimmedDescription, newRecipeDTO.getRecipeId());

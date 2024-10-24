@@ -5,14 +5,17 @@ import com.avengers.yoribogo.common.exception.ErrorCode;
 import com.avengers.yoribogo.openai.service.OpenAIService;
 import com.avengers.yoribogo.recipe.domain.RecipeManual;
 import com.avengers.yoribogo.recipe.dto.RecipeManualDTO;
+import com.avengers.yoribogo.recipe.dto.RequestAIRecipeManualDTO;
 import com.avengers.yoribogo.recipe.dto.RequestRecipeManualDTO;
 import com.avengers.yoribogo.recipe.repository.RecipeManualRepository;
+import com.avengers.yoribogo.recipe.repository.RecipeRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 
 import java.util.*;
 
@@ -21,14 +24,17 @@ import java.util.*;
 public class RecipeManualServiceImpl implements RecipeManualService {
 
     private final ModelMapper modelMapper;
+    private final RecipeRepository recipeRepository;
     private final RecipeManualRepository recipeManualRepository;
     private final OpenAIService openAIService;
 
     @Autowired
     public RecipeManualServiceImpl(ModelMapper modelMapper,
+                                   RecipeRepository recipeRepository,
                                    RecipeManualRepository recipeManualRepository,
                                    OpenAIService openAIService) {
         this.modelMapper = modelMapper;
+        this.recipeRepository = recipeRepository;
         this.recipeManualRepository = recipeManualRepository;
         this.openAIService = openAIService;
     }
@@ -93,16 +99,52 @@ public class RecipeManualServiceImpl implements RecipeManualService {
         return registRecipeManual(recipeId, requestRecipeManualDTO);
     }
 
-    // AI 생성 매뉴얼 등록
-    @Async
+    // AI 생성 매뉴얼 등록 및 비동기로 결과 반환
     @Override
-    public void registAIRecipeManual(Long recipeId, String recipePrompt) {
-        String aiAnswerRecipe = openAIService.getRecommend(recipePrompt).getChoices().get(0).getMessage().getContent();
-        log.info(aiAnswerRecipe);
+    public Flux<String> registAIRecipeManual(Long recipeId, RequestAIRecipeManualDTO requestAIRecipeManualDTO) {
+        // 유효성 검사
+        if (requestAIRecipeManualDTO.getMenuName() == null || requestAIRecipeManualDTO.getMenuIngredient() == null) {
+            return Flux.error(new CommonException(ErrorCode.INVALID_REQUEST_BODY));  // 유효하지 않을 경우 Flux.error로 반환
+        }
 
-        // ':'가 있는 경우, ':' 이후의 문자열만 남기기
-        aiAnswerRecipe = parseString(aiAnswerRecipe);
+        // 프롬프트 생성
+        String recipePrompt = requestAIRecipeManualDTO.getMenuName() + "에 필요한 재료가 " +
+                requestAIRecipeManualDTO.getMenuIngredient() + "일 때, " +
+                requestAIRecipeManualDTO.getMenuName() + "의 레시피를 최대 6단계로 요약해줘. " +
+                "각 단계에 번호만 붙여 '1. 쌀을 씻습니다.'와 같은 형식으로 간결하게 작성해줘.";
 
+        // OpenAI API 호출로부터 Flux<String>을 반환
+        return Flux.defer(() -> {
+            try {
+                String[] recommendationHolder = {""};
+
+                // OpenAI API 호출
+                return openAIService.getRecommendManuals(recipePrompt)
+                        .doOnNext(recommendation -> {
+                            // 추천 매뉴얼을 받아오는 중의 로깅
+                            log.info("Received recommendation: {}", recommendation);
+                            recommendationHolder[0] += recommendation; // recommendation 저장
+                        })
+                        .doOnComplete(() -> {
+                            // 완료되었을 때 registRecipeManual 호출
+                            if (recommendationHolder[0] != null) {
+                                registRecipeManual(recipeId, recommendationHolder[0]); // recommendation을 전달
+                            } else {
+                                log.warn("No recommendation received.");
+                            }
+                        })
+                        .doOnError(error -> {
+                            // 에러 발생 시 로깅
+                            log.error("Error occurred while getting recommendations: {}", error.getMessage());
+                        });
+            } catch (JsonProcessingException e) {
+                return Flux.error(new CommonException(ErrorCode.INTERNAL_SERVER_ERROR));  // 내부 서버 에러 처리
+            }
+        });
+    }
+
+    // AI 생성 매뉴얼 등록에 사용하는 메소드
+    private void registRecipeManual(Long recipeId, String aiAnswerRecipe) {
         // AI가 생성한 요리 레시피 매뉴얼 등록
         List<Map<String, String>> manual = new ArrayList<>();
 
@@ -133,15 +175,6 @@ public class RecipeManualServiceImpl implements RecipeManualService {
         return recipeManualList.stream()
                 .map(recipeManual -> modelMapper.map(recipeManual, RecipeManualDTO.class))
                 .toList();
-    }
-
-    // ':'가 있는 경우, ':' 이후의 문자열만 남기는 메소드
-    private String parseString(String aiAnswer) {
-        int colonIndex = aiAnswer.indexOf(":");
-        if (colonIndex != -1) {
-            aiAnswer = aiAnswer.substring(colonIndex + 1).trim();
-        }
-        return aiAnswer;
     }
 
 }

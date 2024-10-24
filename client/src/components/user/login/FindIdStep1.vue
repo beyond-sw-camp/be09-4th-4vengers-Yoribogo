@@ -2,40 +2,57 @@
   <div class="modal-content">
     <div class="modal-header">
       <button class="back-btn" @click="goToLogin">
-        <i class="fa-solid fa-arrow-left"></i> <!-- Font Awesome 아이콘 -->
+        <i class="fa-solid fa-arrow-left"></i>
+        <!-- Font Awesome 아이콘 -->
       </button>
       <h2>요리보고</h2>
     </div>
 
     <div class="modal-body">
-      <div class="message-container"> <!-- 1번: 인사말 -->
+      <div class="message-container">
+        <!-- 1번: 인사말 -->
         <p class="first-text">아이디를 찾고 싶으시면</p>
         <p class="second-text">닉네임과 이메일을 입력해주세요.</p>
       </div>
 
-      <div class="input-container"> <!-- 2번: 닉네임 입력 -->
+      <div class="input-container">
+        <!-- 2번: 닉네임 입력 -->
         <input type="text" placeholder="닉네임 입력" v-model="nickname" maxlength="24" />
         <span v-if="nameError" class="error-text">{{ nameError }}</span>
 
-        <input type="email" placeholder="가입시 입력한 이메일 입력" v-model="email" maxlength="24" />
+        <input
+          type="email"
+          placeholder="가입시 입력한 이메일 입력"
+          v-model="email"
+          maxlength="24"
+        />
         <!-- 이메일 유효성 검사 메시지 -->
         <span v-if="emailError" class="error-text">{{ emailError }}</span>
       </div>
 
-      <div class="verification-container"> <!-- 3번: 체크박스와 버튼 정렬 -->
+      <div class="verification-container">
+        <!-- 3번: 체크박스와 버튼 정렬 -->
         <div class="checkbox-container">
-          <div class="email-checkbox" :class="{ 'verified': isVerified }"></div>
+          <div class="email-checkbox" :class="{ verified: isVerified }"></div>
           <span class="checkbox-text">이메일 인증</span>
         </div>
-        <button class="verify-btn" @click="handleSendVerification">{{ verificationButtonText }}</button>
+        <button class="verify-btn" @click="handleSendVerification">
+          {{ verificationButtonText }}
+        </button>
       </div>
       <!-- 인증 에러 및 성공 메시지 표시 -->
       <span v-if="verificationMessage" class="message-text">{{ verificationMessage }}</span>
       <span v-if="verificationError" class="error-text">{{ verificationError }}</span>
 
-      <div class="code-input-container"> <!-- 4번: 인증코드 입력과 타이머 -->
+      <div class="code-input-container">
+        <!-- 4번: 인증코드 입력과 타이머 -->
         <div class="input-with-timer">
-          <input type="text" placeholder="문자 6자리 입력" v-model="verificationCode" maxlength="6" />
+          <input
+            type="text"
+            placeholder="문자 6자리 입력"
+            v-model="verificationCode"
+            maxlength="6"
+          />
           <span class="timer">{{ formattedTime }}</span>
         </div>
         <button class="confirm-btn" @click="confirmVerificationCode">확인</button>
@@ -44,184 +61,180 @@
 
     <!-- 하단 버튼들 -->
     <div class="modal-footer">
-      <YesNoButton
-        type="cancel"
-        label="취소"
-        @click="goToLogin"
-      />
-      <YesNoButton
-        type="next"
-        label="다음"
-        @click="goToNextStep"
-        :disabled="!canProceed"
-      />
+      <YesNoButton type="cancel" label="취소" @click="goToLogin" />
+      <YesNoButton type="next" label="다음" @click="goToNextStep" :disabled="!canProceed" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { sendAuthIdVerificationEmail, verifyUserNicknameCode } from '@/api/user';  // user.js에서 함수 임포트
-import YesNoButton from '@/components/common/YesNoButton.vue'; // YesNoButton 컴포넌트 임포트
+import { ref, computed } from 'vue'
+import { sendAuthIdVerificationEmail, verifyUserNicknameCode } from '@/api/user' // user.js에서 함수 임포트
+import YesNoButton from '@/components/common/YesNoButton.vue' // YesNoButton 컴포넌트 임포트
 
 // 이벤트 정의
-const emit = defineEmits(['close', 'goToFindIdStep2', 'openLogin']);
+const emit = defineEmits(['close', 'goToFindIdStep2', 'openLogin'])
 
 // 상태 변수
-const userAuthId = ref('');
-const nickname = ref('');
-const email = ref('');
-const verificationCode = ref('');
-const verificationButtonText = ref('인증번호 발송');
-const timeRemaining = ref(0); // 초기 시간은 0으로 설정, 발송 버튼 클릭 시 300초로 설정
-const verificationMessage = ref('');
-const verificationError = ref('');
-const nameError = ref('');
-const emailError = ref('');
-const isVerified = ref(false); // 이메일 인증 성공 여부
-let timerInterval = null;
+const userAuthId = ref('')
+const nickname = ref('')
+const email = ref('')
+const verificationCode = ref('')
+const verificationButtonText = ref('인증번호 발송')
+const timeRemaining = ref(0) // 초기 시간은 0으로 설정, 발송 버튼 클릭 시 300초로 설정
+const verificationMessage = ref('')
+const verificationError = ref('')
+const nameError = ref('')
+const emailError = ref('')
+const isVerified = ref(false) // 이메일 인증 성공 여부
+let timerInterval = null
 
 // 이메일 유효성 검사 정규 표현식
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 // 이메일 유효성 검사 결과 계산
 const isEmailValid = computed(() => {
-  return emailPattern.test(email.value);
-});
+  return emailPattern.test(email.value)
+})
 
 // 이메일 인증번호 발송 API 호출 함수
 const sendVerificationCode = async () => {
   try {
     // 기존에 작성된 user.js의 API 함수 사용
-    const response = await sendAuthIdVerificationEmail(nickname.value, email.value);
+    const response = await sendAuthIdVerificationEmail(nickname.value, email.value)
 
     if (response.success) {
       // 성공 시 처리
-      verificationMessage.value = '아이디 찾기를 위한 인증번호가 이메일로 발송되었습니다.';
-      verificationError.value = '';
+      verificationMessage.value = '아이디 찾기를 위한 인증번호가 이메일로 발송되었습니다.'
+      verificationError.value = ''
     } else {
-      verificationError.value = response.error.message || '인증번호 발송에 실패했습니다.';
-      verificationMessage.value = '';
+      verificationError.value = response.error.message || '인증번호 발송에 실패했습니다.'
+      verificationMessage.value = ''
     }
   } catch (error) {
-    verificationError.value = error.response?.data?.message || '죄송합니다. 서버 내부 오류입니다.';
-    verificationMessage.value = '';
+    verificationError.value = error.response?.data?.message || '죄송합니다. 서버 내부 오류입니다.'
+    verificationMessage.value = ''
   }
-};
+}
 
 // 발송 버튼 클릭 시 타이머 시작
 const handleSendVerification = () => {
   // 초기화
-  nameError.value = '';
-  emailError.value = '';
-  verificationError.value = '';
-  verificationMessage.value = '';
+  nameError.value = ''
+  emailError.value = ''
+  verificationError.value = ''
+  verificationMessage.value = ''
 
   // 입력값 유효성 체크
   if (!nickname.value) {
-    nameError.value = '닉네임을 입력해주세요.';
-    return;
+    nameError.value = '닉네임을 입력해주세요.'
+    return
   }
   if (!isEmailValid.value) {
-    emailError.value = '유효한 이메일을 입력해주세요.';
-    return;
+    emailError.value = '유효한 이메일을 입력해주세요.'
+    return
   }
 
-  verificationMessage.value = '인증번호를 전송 중입니다...';
-  timeRemaining.value = 300; // 5분 설정
-  sendVerificationCode();
+  verificationMessage.value = '인증번호를 전송 중입니다...'
+  timeRemaining.value = 300 // 5분 설정
+  sendVerificationCode()
 
   if (!timerInterval) {
-    startTimer();
+    startTimer()
   }
-};
+}
 
 // 타이머 시작 함수
 const startTimer = () => {
-  clearTimer(); // 기존 타이머 초기화
+  clearTimer() // 기존 타이머 초기화
   timerInterval = setInterval(() => {
     if (timeRemaining.value > 0) {
-      timeRemaining.value--;
+      timeRemaining.value--
     } else {
-      clearTimer();
+      clearTimer()
     }
-  }, 1000);
-};
+  }, 1000)
+}
 
 // 타이머 정리 함수
 const clearTimer = () => {
   if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
+    clearInterval(timerInterval)
+    timerInterval = null
   }
-};
+}
 
 // 인증번호 확인 및 사용자 정보 조회 API 호출 함수
 const confirmVerificationCode = async () => {
   try {
     // 새로운 사용자 인증 및 정보 조회 API 호출
-    const response = await verifyUserNicknameCode(nickname.value, email.value, verificationCode.value);
+    const response = await verifyUserNicknameCode(
+      nickname.value,
+      email.value,
+      verificationCode.value
+    )
 
     if (response.success) {
-      verificationMessage.value = '인증되었습니다.';
-      verificationError.value = '';
-      isVerified.value = true;
-      userAuthId.value = response.data.userAuthId; // 사용자 ID 설정
-      nickname.value = response.data.nickname; // 사용자 닉네임 설정
+      verificationMessage.value = '인증되었습니다.'
+      verificationError.value = ''
+      isVerified.value = true
+      userAuthId.value = response.data.userAuthId // 사용자 ID 설정
+      nickname.value = response.data.nickname // 사용자 닉네임 설정
     } else {
-      verificationError.value = response.message || '인증번호가 올바르지 않습니다.';
-      verificationMessage.value = '';
+      verificationError.value = response.message || '인증번호가 올바르지 않습니다.'
+      verificationMessage.value = ''
     }
   } catch (error) {
-    verificationError.value = error.response?.data?.message || '인증에 실패했습니다. 다시 시도해주세요.';
-    verificationMessage.value = '';
+    verificationError.value =
+      error.response?.data?.message || '인증에 실패했습니다. 다시 시도해주세요.'
+    verificationMessage.value = ''
   }
-};
+}
 
 // 다음 버튼 활성화 여부 계산
 const canProceed = computed(() => {
-  return nickname.value !== '' && isEmailValid.value && isVerified.value;
+  return nickname.value !== '' && isEmailValid.value && isVerified.value
   // return true;
-});
+})
 
 // 모달 닫기 함수
 const closeModal = () => {
-  clearTimer();
-  emit('close');
-};
+  clearTimer()
+  emit('close')
+}
 
 // 로그인 모달로 이동
 const goToLogin = () => {
-  emit('openLogin');
-  emit('close');
-};
+  emit('openLogin')
+  emit('close')
+}
 
 // 다음 단계로 이동하는 함수
 const goToNextStep = () => {
   if (canProceed.value) {
-    emit('goToFindIdStep2', nickname.value, userAuthId.value);
+    emit('goToFindIdStep2', nickname.value, userAuthId.value)
   }
-};
+}
 
 // 타이머 형식 변경 함수
 const formattedTime = computed(() => {
-  const minutes = String(Math.floor(timeRemaining.value / 60)).padStart(2, '0');
-  const seconds = String(timeRemaining.value % 60).padStart(2, '0');
-  return `${minutes}:${seconds}`;
-});
+  const minutes = String(Math.floor(timeRemaining.value / 60)).padStart(2, '0')
+  const seconds = String(timeRemaining.value % 60).padStart(2, '0')
+  return `${minutes}:${seconds}`
+})
 </script>
 
 <style scoped>
 /* 오류 텍스트 스타일 */
 .error-text {
-  color: #E1523A;
+  color: #e1523a;
   font-size: 1.4rem;
   margin-top: 0.2rem;
 }
 
 /* 성공 텍스트 스타일 */
 .message-text {
-  color: #02B853;
+  color: #02b853;
   font-size: 1.4rem;
   margin-top: 0.5rem;
 }
@@ -240,7 +253,7 @@ const formattedTime = computed(() => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   animation: slide-up 0.3s ease-out;
-  
+
   /* 화면 중앙에 배치 */
   position: absolute;
   top: 50%;
@@ -373,7 +386,7 @@ const formattedTime = computed(() => {
 /* 인증 후 체크박스 스타일 */
 .email-checkbox.verified {
   background-color: transparent;
-  border:1px solid #02B853; /* 인증 후에 border 색상을 변경 */
+  border: 1px solid #02b853; /* 인증 후에 border 색상을 변경 */
 }
 
 .checkbox-text {
@@ -428,7 +441,7 @@ const formattedTime = computed(() => {
 .confirm-btn {
   width: 100px;
   height: 40px;
-  background-color: #FF7D7D;
+  background-color: #ff7d7d;
   color: white;
   display: flex;
   border-radius: 5px;

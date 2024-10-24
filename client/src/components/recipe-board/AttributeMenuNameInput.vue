@@ -4,13 +4,13 @@
       <span>{{ name }}</span>
     </div>
     <div class="attribute-input-wrapper">
-      <input type="text" :placeholder="placeholder" v-model="inputValue"/>
+      <input id="menu-name-input" type="text" :placeholder="placeholder" v-model="inputValue" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch } from 'vue'
 
 // props 정의
 const props = defineProps({
@@ -30,19 +30,18 @@ const props = defineProps({
     type: String,
     default: ''
   }
-});
+})
 
 // 상위 컴포넌트로 이벤트 전송
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue'])
 
 // `modelValue`를 `inputValue`로 설정
-const inputValue = ref(props.modelValue);
+const inputValue = ref(props.modelValue)
 
 // 새로운 값이 입력되면 상위 컴포넌트로 값 전송
 watch(inputValue, (newValue) => {
-  emit('update:modelValue', newValue); // 사용자가 입력한 값을 상위로 전송
-  console.log("변경된 값:", newValue);
-});
+  emit('update:modelValue', newValue) // 사용자가 입력한 값을 상위로 전송
+})
 </script>
 
 <style scoped>
@@ -53,7 +52,7 @@ watch(inputValue, (newValue) => {
   height: fit-content;
 }
 
-.attribute-name-wrapper span{
+.attribute-name-wrapper span {
   display: flex;
   justify-content: center;
   align-items: center;

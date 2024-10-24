@@ -31,11 +31,8 @@
 <script setup>
 import LoginModal from '@/components/user/login/LoginModal.vue'
 import HomeNav from '@/components/user/HomeNav.vue'
-import NotificationButton from '@/components/common/NotificationButton.vue'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { onMounted, onUnmounted } from 'vue'
-import { connectSSE, closeSSE } from '@/api/SSERequest'  // SSE 연결 함수
 
 // 로그인 상태 확인을 위한 변수
 const isLoggedIn = ref(false)
@@ -59,19 +56,10 @@ const closeLoginModal = () => {
   isLoginModalVisible.value = false
 }
 
-
 const goQuestion = () => {
   router.push('/question/1')
 }
-
-
 </script>
-
-
-<style scoped>
-/* 기존 스타일 그대로 유지 */
-</style>
-
 
 <style scoped>
 .home-view {

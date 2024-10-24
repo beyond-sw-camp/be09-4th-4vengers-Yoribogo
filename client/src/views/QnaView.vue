@@ -1,7 +1,6 @@
 <template>
   <div class="qna-view">
     <header>
-      <NotificationButton class="notification-btn"></NotificationButton>
       <ProfileButton class="profile-btn"></ProfileButton>
       <HomeButton class="home-btn"></HomeButton>
     </header>
@@ -11,7 +10,14 @@
           <p @click="goHome">Q & A</p>
           <form class="search" @submit.prevent="searchText">
             <i class="fa-solid fa-magnifying-glass" @click="searchText"></i>
-            <input class="inputValue" type="search" @keyup.enter="searchText" v-model="sTxt" placeholder="문의사항 검색">
+            <input
+              id="search-qna-input"
+              class="inputValue"
+              type="search"
+              @keyup.enter="searchText"
+              v-model="sTxt"
+              placeholder="문의사항 검색"
+            />
           </form>
         </div>
         <div class="L2">
@@ -23,22 +29,22 @@
           <div class="create-btn">
             <button type="button" @click="goCreate">QnA 작성</button>
           </div>
-          </div>
+        </div>
         <div class="L3">
           <div class="list" v-for="inquiry in pageInquiries" :key="inquiry.inquiryId">
             <a href="" @click.prevent="toInquiry(inquiry)">{{ inquiry.inquiryId }}</a>
             <div class="title">
               <a href="" @click.prevent="toInquiry(inquiry)">{{ inquiry.inquiryTitle }}</a>
-              <img class="privateIcon" v-if="inquiry.inquiryVisibility == 'PRIVATE'" src="/src/assets/images/private_icon.png" >
+              <img
+                class="privateIcon"
+                v-if="inquiry.inquiryVisibility == 'PRIVATE'"
+                src="/src/assets/images/private_icon.png"
+              />
             </div>
             <p>{{ inquiry.user.nickname }}</p>
             <p>{{ inquiry.inquiryCreatedAt }}</p>
-            <div class="visibility1" v-if="inquiry.answerStatus == 'PENDING'">
-              답변대기
-            </div>
-            <div class="visibility2" v-else>
-              답변완료
-            </div>
+            <div class="visibility1" v-if="inquiry.answerStatus == 'PENDING'">답변대기</div>
+            <div class="visibility2" v-else>답변완료</div>
           </div>
         </div>
         <div class="L4">
@@ -54,145 +60,145 @@
 </template>
 
 <script setup>
-import HomeButton from '@/components/common/HomeButton.vue';
-import MainBoard from '@/components/common/MainBoard.vue';
-import ProfileButton from '@/components/common/ProfileButton.vue';
-import NotificationButton from '@/components/common/NotificationButton.vue';
+import HomeButton from '@/components/common/HomeButton.vue'
+import MainBoard from '@/components/common/MainBoard.vue'
+import ProfileButton from '@/components/common/ProfileButton.vue'
 
-  import {ref, onMounted} from 'vue';
-  import { useRouter } from 'vue-router';
-  import { useTokenStore } from '@/stores/tokenStore';
-  import {getInquiries, getUserInfo} from '@/api/qna.js';
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useTokenStore } from '@/stores/tokenStore'
+import { getInquiries, getUserInfo } from '@/api/qna.js'
 
-  const router = useRouter();
-  const tokenStroe = useTokenStore();
-  const inquiry = ref([]);
-  const list = ref([]);
-  const filtd = ref([]);
-  const user = ref({});
-  const sTxt = ref('');
+const router = useRouter()
+const tokenStore = useTokenStore()
+const inquiry = ref([])
+const list = ref([])
+const filtd = ref([])
+const user = ref({})
+const sTxt = ref('')
+const isLogin = ref(false)
 
-  onMounted(async () => {
-    const response = await getInquiries();
-
-    user.value = await getUserInfo(tokenStroe.token.userId);
-    user.value = user.value.data;
-    
-    setinquiry(response);
-    updateList(list.value);
-    goPage(1);
-  });
-
-
-  const setNums = (lst) => {
-    if (Math.floor(lst.length/10) < 5) next.value = Math.ceil(lst.length/10);
-    nums.value = Array.from({ length: next.value - index.value }, (_, i) => i + index.value);
-  };
-
-  const updateList = (lst) => {
-    setNums(lst);
-    list.value = lst;
-    filtd.value = lst;
+onMounted(async () => {
+  if (localStorage.getItem('token')) {
+    isLogin.value = true
+    user.value = await getUserInfo(tokenStore.token.userId)
+    user.value = user.value.data
   }
 
-  const setinquiry = (data) => {
-    for (let i=0; i<data.data.length; i++)
-      data.data[i].inquiryCreatedAt = data.data[i].inquiryCreatedAt.split('T')[0];
-    if (data.data.length > 5) next.value = 5;
-    else next.value = data.data.length;
-    inquiry.value =data.data.reverse();
-    list.value = inquiry.value;
-    filtd.value = inquiry.value;
+  const response = await getInquiries()
+
+  setinquiry(response)
+  updateList(list.value)
+  goPage(1)
+})
+
+const setNums = (lst) => {
+  if (Math.floor(lst.length / 10) < 5) next.value = Math.ceil(lst.length / 10)
+  nums.value = Array.from({ length: next.value - index.value }, (_, i) => i + index.value)
+}
+
+const updateList = (lst) => {
+  setNums(lst)
+  list.value = lst
+  filtd.value = lst
+}
+
+const setinquiry = (data) => {
+  for (let i = 0; i < data.data.length; i++)
+    data.data[i].inquiryCreatedAt = data.data[i].inquiryCreatedAt.split('T')[0]
+  if (data.data.length > 5) next.value = 5
+  else next.value = data.data.length
+  inquiry.value = data.data.reverse()
+  list.value = inquiry.value
+  filtd.value = inquiry.value
+}
+
+const nums = ref([])
+const index = ref(0)
+const next = ref(0)
+
+const goBack = () => {
+  if (index.value > 0) {
+    if (next.value - index.value < 5) next.value -= next.value - index.value
+    else next.value -= 5
+    index.value -= 5
   }
+  updateNums()
+}
 
-  
-
-  const nums = ref([]);
-  const index = ref(0);
-  const next = ref(0);
-
-  const goBack = () => {
-    if (index.value > 0) {
-      if (next.value - index.value < 5) next.value -= (next.value-index.value);
-      else next.value -= 5;
-      index.value -= 5;
-    }
-    updateNums();
-  };
-
-  const goNext = () => {
-    const totalNums = ref(Math.ceil(list.value.length/10));
-    if (next.value < totalNums.value) {
-      if (totalNums.value - next.value < 5) next.value += totalNums.value-next.value+1;
-      else next.value += 5;
-      index.value += 5;
-    }    
-    updateNums();
-  };
-
-  const updateNums = () => {
-    nums.value = Array.from({ length: next.value - index.value }, (_, i) => i + index.value);
+const goNext = () => {
+  const totalNums = ref(Math.ceil(list.value.length / 10))
+  if (next.value < totalNums.value) {
+    if (totalNums.value - next.value < 5) next.value += totalNums.value - next.value + 1
+    else next.value += 5
+    index.value += 5
   }
+  updateNums()
+}
 
-  const pageInquiries = ref([]);
+const updateNums = () => {
+  nums.value = Array.from({ length: next.value - index.value }, (_, i) => i + index.value)
+}
 
-  const goPage = (num) => {
-    pageInquiries.value = list.value.slice((num-1)*10, (num-1)*10+10);
-  };
+const pageInquiries = ref([])
 
-  const changeList = (elemt) => {
-    const tags = document.querySelectorAll('.L2 p');
-    for (let i = 0; i < tags.length; i++) {
-      if (tags[i].innerText === elemt) {
-        tags[i].classList.add('active');
-      } else {
-        tags[i].classList.remove('active');
-      }
-    }
+const goPage = (num) => {
+  pageInquiries.value = list.value.slice((num - 1) * 10, (num - 1) * 10 + 10)
+}
 
-    switch (elemt) {
-      case '전체':
-        list.value = filtd.value;
-        break;
-      case '답변완료':
-        list.value = filtd.value.filter(ans => ans.answerStatus === 'ANSWERED');
-        break;
-      case '답변대기':
-        list.value = filtd.value.filter(ans => ans.answerStatus === 'PENDING');
-        break;
-      default:
-        break;
-    }
-    setNums(list.value);
-    goPage(1);
-  };
-  
-
-  const searchText = () => {
-    filtd.value = inquiry.value.filter(ans => ans.inquiryTitle.includes(sTxt.value));
-    updateList(filtd.value);
-    changeList('전체');
-  };
-
-  const goHome = () => {
-    router.go(0);
-  };
-
-  /* 문의 상세페이지로 이동 */
-  const toInquiry = (inquiry) => {
-    if (inquiry.inquiryVisibility === 'PRIVATE' && 
-          inquiry.user.userId !== user.value.user_id &&
-          user.value.user_role !== 'ADMIN') {
-        alert('비밀글은 작성자와 관리자만 볼 수 있습니다.');
+const changeList = (elemt) => {
+  const tags = document.querySelectorAll('.L2 p')
+  for (let i = 0; i < tags.length; i++) {
+    if (tags[i].innerText === elemt) {
+      tags[i].classList.add('active')
     } else {
-      router.push(`/qna/${inquiry.inquiryId}`);
+      tags[i].classList.remove('active')
     }
-  };
+  }
 
-  const goCreate = () => {
-    router.push('/qna/new');
-  };
+  switch (elemt) {
+    case '전체':
+      list.value = filtd.value
+      break
+    case '답변완료':
+      list.value = filtd.value.filter((ans) => ans.answerStatus === 'ANSWERED')
+      break
+    case '답변대기':
+      list.value = filtd.value.filter((ans) => ans.answerStatus === 'PENDING')
+      break
+    default:
+      break
+  }
+  setNums(list.value)
+  goPage(1)
+}
 
+const searchText = () => {
+  filtd.value = inquiry.value.filter((ans) => ans.inquiryTitle.includes(sTxt.value))
+  updateList(filtd.value)
+  changeList('전체')
+}
+
+const goHome = () => {
+  router.go(0)
+}
+
+/* 문의 상세페이지로 이동 */
+const toInquiry = (inquiry) => {
+  if (
+    inquiry.inquiryVisibility === 'PRIVATE' &&
+    inquiry.user.userId !== user.value.user_id &&
+    user.value.user_role !== 'ADMIN'
+  ) {
+    alert('비밀글은 작성자와 관리자만 볼 수 있습니다.')
+  } else {
+    router.push(`/qna/${inquiry.inquiryId}`)
+  }
+}
+
+const goCreate = () => {
+  router.push('/qna/new')
+}
 </script>
 
 <style scoped>
@@ -256,24 +262,24 @@ import NotificationButton from '@/components/common/NotificationButton.vue';
   width: 28rem;
   height: 5rem;
   border-radius: 1rem;
-  border: 1px solid #AEB3BB;
+  border: 1px solid #aeb3bb;
   text-align: center;
   justify-content: center;
 }
 
 .search i {
-  color: #AEB3BB;
+  color: #aeb3bb;
 }
 
-input[type=search] {
+input[type='search'] {
   align-items: center;
   border: none;
   outline: none;
   font-size: 2.2rem;
 }
 
-input[type=search]::placeholder {
-  color: #AEB3BB;
+input[type='search']::placeholder {
+  color: #aeb3bb;
   font-weight: 400;
   font-size: 2.2rem;
 }
@@ -291,14 +297,14 @@ input[type=search]::placeholder {
 .p-container {
   display: flex;
   justify-content: space-evely;
-  color: #AEB3BB;
+  color: #aeb3bb;
 }
 
 .p-container p {
   position: relative;
   font-size: 2.5rem;
   cursor: pointer;
-  color: #AEB3BB;
+  color: #aeb3bb;
   transition: color 0.3s ease;
 }
 
@@ -310,7 +316,7 @@ input[type=search]::placeholder {
 .p-container p::after {
   content: '';
   position: absolute;
-  bottom: -2.6rem; 
+  bottom: -2.6rem;
   left: 0;
   width: 0;
   height: 0.4rem;
@@ -361,7 +367,8 @@ input[type=search]::placeholder {
   font-size: 2rem;
 }
 
-.L3 .list a, .L3 .list p {
+.L3 .list a,
+.L3 .list p {
   font-weight: 500;
   color: var(--black-color);
 }
@@ -379,7 +386,8 @@ input[type=search]::placeholder {
   height: 1.4rem;
 }
 
-.visibility1, .visibility2 {
+.visibility1,
+.visibility2 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -410,7 +418,9 @@ input[type=search]::placeholder {
   margin-bottom: 4rem;
 }
 
-.L4 button, .L4 div, .L4 div button {
+.L4 button,
+.L4 div,
+.L4 div button {
   display: flex;
   background: none;
   border: none;
@@ -429,7 +439,8 @@ input[type=search]::placeholder {
     font-size: 1.8rem;
   }
 
-  .visibility1, .visibility2 {
+  .visibility1,
+  .visibility2 {
     height: 3.2rem;
     width: 6.4rem;
     font-size: 1.2rem;
@@ -442,11 +453,11 @@ input[type=search]::placeholder {
     height: 5rem;
   }
 
-  input[type=search] {
+  input[type='search'] {
     font-size: 2rem;
   }
 
-  input[type=search]::placeholder {
+  input[type='search']::placeholder {
     font-size: 2rem;
   }
 
@@ -454,7 +465,8 @@ input[type=search]::placeholder {
     font-size: 1.6rem;
   }
 
-  .visibility1, .visibility2 {
+  .visibility1,
+  .visibility2 {
     height: 3rem;
     width: 6rem;
     font-size: 1.1rem;
@@ -477,7 +489,8 @@ input[type=search]::placeholder {
     font-size: 1.5rem;
   }
 
-  .visibility1, .visibility2 {
+  .visibility1,
+  .visibility2 {
     height: 2.7rem;
     width: 5.4rem;
     font-size: 1rem;
@@ -508,11 +521,11 @@ input[type=search]::placeholder {
     height: 5rem;
   }
 
-  input[type=search] {
+  input[type='search'] {
     font-size: 1.8rem;
   }
 
-  input[type=search]::placeholder {
+  input[type='search']::placeholder {
     font-size: 1.8rem;
   }
 

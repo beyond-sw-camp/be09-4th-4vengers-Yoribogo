@@ -2,10 +2,13 @@ package com.avengers.yoribogo.recipe.controller;
 
 import com.avengers.yoribogo.common.ResponseDTO;
 import com.avengers.yoribogo.recipe.dto.RecipeManualDTO;
+import com.avengers.yoribogo.recipe.dto.RequestAIRecipeManualDTO;
 import com.avengers.yoribogo.recipe.dto.RequestRecipeManualDTO;
 import com.avengers.yoribogo.recipe.service.RecipeManualService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -34,6 +37,13 @@ public class RecipeManualController {
         List<RecipeManualDTO> recipeManualDTOList =
                 recipeManualService.registRecipeManual(recipeId, requestRecipeManualDTO);
         return ResponseDTO.ok(recipeManualDTOList);
+    }
+
+    // AI 요리 레시피 매뉴얼 등록
+    @PostMapping(value="/ai", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> createAIRecipeManual(@RequestParam("recipe") Long recipeId,
+                                               @RequestBody RequestAIRecipeManualDTO requestAIRecipeManualDTO) {
+        return recipeManualService.registAIRecipeManual(recipeId, requestAIRecipeManualDTO);
     }
 
     // 요리 레시피 매뉴얼 수정

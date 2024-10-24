@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.avengers.yoribogo.common.exception.CommonException;
 import com.avengers.yoribogo.common.exception.ErrorCode;
+import com.avengers.yoribogo.notification.notification.service.NotificationService;
 import com.avengers.yoribogo.openai.service.OpenAIService;
 import com.avengers.yoribogo.recipe.domain.Recipe;
 import com.avengers.yoribogo.recipe.dto.AIRecipeDTO;
@@ -29,6 +30,7 @@ public class ImageServiceImpl implements ImageService {
     private final RecipeRepository recipeRepository;
     private final AIRecipeService aiRecipeService;
     private final OpenAIService openAIService;
+    private final NotificationService notificationService;
     private final AmazonS3Client s3Client;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -38,10 +40,12 @@ public class ImageServiceImpl implements ImageService {
     public ImageServiceImpl(RecipeRepository recipeRepository,
                             AIRecipeService aiRecipeService,
                             OpenAIService openAIService,
+                            NotificationService notificationService,
                             AmazonS3Client s3Client) {
         this.recipeRepository = recipeRepository;
         this.aiRecipeService = aiRecipeService;
         this.openAIService = openAIService;
+        this.notificationService = notificationService;
         this.s3Client = s3Client;
     }
 
@@ -76,7 +80,7 @@ public class ImageServiceImpl implements ImageService {
 
             // AI 요리 레시피 수정
             aiRecipeService.modifyAIRecipe(aiRecipeDTO);
-
+            notificationService.sendImageUpdateNotification(s3ImageUrl);
         } catch (Exception e) {
             log.error("레시피 ID: " + recipeId + "의 이미지 생성 중 오류 발생", e);
         }

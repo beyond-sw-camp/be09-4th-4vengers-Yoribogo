@@ -1,16 +1,11 @@
 <template>
   <div class="recipe-board-view">
     <header>
-      <NotificationButton></NotificationButton>
       <ProfileButton></ProfileButton>
       <HomeButton></HomeButton>
-    </header>   
+    </header>
     <MainBoard :cur="'recipe-board'">
-      <!-- <router-view></router-view>
-      WriteRecipeBoardComponent.vue -->
-      <WriteRecipeBoardComponent>
-
-      </WriteRecipeBoardComponent>
+      <WriteRecipeBoardComponent> </WriteRecipeBoardComponent>
     </MainBoard>
   </div>
 </template>
@@ -18,9 +13,23 @@
 <script setup>
 import HomeButton from '@/components/common/HomeButton.vue'
 import MainBoard from '@/components/common/MainBoard.vue'
-import NotificationButton from '@/components/common/NotificationButton.vue'
 import ProfileButton from '@/components/common/ProfileButton.vue'
 import WriteRecipeBoardComponent from '@/components/recipe-board/WriteRecipeBoardComponent.vue'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const isLogin = ref(false)
+const router = useRouter()
+
+onMounted(() => {
+  if (localStorage.getItem('token')) {
+    isLogin.value = true
+  } else {
+    alert('게시글을 작성하시려면 로그인이 필요합니다!')
+    router.push('/login')
+    return
+  }
+})
 </script>
 
 <style scoped>

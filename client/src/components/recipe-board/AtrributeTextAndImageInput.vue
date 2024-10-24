@@ -2,7 +2,7 @@
   <div class="attribute-input-container">
     <div class="attribute-name-wrapper">
       <span>{{ props.name }}</span>
-      <button @click="handleAdd"> 추가 + </button>
+      <button @click="handleAdd">추가 +</button>
     </div>
 
     <div class="attribute-input-wrapper">
@@ -15,54 +15,62 @@
       >
         <label for="file-upload-step" class="custom-file-upload">
           <i v-if="!uploadedFileName" class="fa-solid fa-image"></i>
-          <div v-if="uploadedImageUrl" style="display: flex; justify-content: center; align-items: center;">
-            <img :src="uploadedImageUrl" alt="미리보기 이미지" style="max-height: 15rem;" />
+          <div
+            v-if="uploadedImageUrl"
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            <img :src="uploadedImageUrl" alt="미리보기 이미지" style="max-height: 15rem" />
           </div>
           <span v-if="!uploadedFileName">
-            {{ props.name === '조리 순서' ? '여기에 이미지를 드래그하거나 클릭하여 추가' : props.placeholder }}
+            {{
+              props.name === '조리 순서'
+                ? '여기에 이미지를 드래그하거나 클릭하여 추가'
+                : props.placeholder
+            }}
           </span>
           <span v-else>{{ uploadedFileName }}</span>
         </label>
         <input id="file-upload-step" type="file" @change="handleFileChange" />
       </div>
       <div class="text-input">
-        <input type="text" :placeholder="props.placeholder" v-model="stepText" />
+        <input
+          id="text-upload-input"
+          type="text"
+          :placeholder="props.placeholder"
+          v-model="stepText"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue'
 
 const uploadedFileName = ref('') // 파일 이름을 저장할 변수
 const uploadedImageUrl = ref('') // 이미지 URL 저장
-const stepText = ref(''); // 단계 텍스트 저장
+const stepText = ref('') // 단계 텍스트 저장
 
 const props = defineProps({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   placeholder: {
     type: String,
-    required: true,
-  },
-  index: { // index 추가
-    type: Number,
-    required: true,
+    required: true
   }
-});
+})
 
-const emit = defineEmits(['add']);
+const emit = defineEmits(['add'])
 
 const handleFileChange = (event) => {
-  const file = event.target.files[0];
+  const file = event.target.files[0]
   if (file && file.type.startsWith('image/')) {
-    uploadedFileName.value = file.name;
-    uploadedImageUrl.value = URL.createObjectURL(file);
+    uploadedFileName.value = file.name
+    uploadedImageUrl.value = URL.createObjectURL(file)
   }
-};
+}
 
 // "추가" 버튼 클릭 시 호출할 함수
 const handleAdd = () => {
@@ -70,24 +78,22 @@ const handleAdd = () => {
   const newStep = {
     content: stepText.value,
     image: uploadedImageUrl.value || null
-  };
+  }
 
-  if (newStep.content.trim() === "") {
-    alert("조리 방법을 입력하세요.");
-    return;
+  if (newStep.content.trim() === '') {
+    alert('조리 방법을 입력하세요.')
+    return
   }
 
   // 상위 컴포넌트에 emit
-  emit('add', newStep);
-  
+  emit('add', newStep)
+
   // 입력 필드 초기화
-  stepText.value = ''; 
-  uploadedFileName.value = ''; 
-  uploadedImageUrl.value = '';
-};
+  stepText.value = ''
+  uploadedFileName.value = ''
+  uploadedImageUrl.value = ''
+}
 </script>
-
-
 
 <style scoped>
 .attribute-input-container {
@@ -102,7 +108,7 @@ const handleAdd = () => {
   justify-content: space-between;
 }
 
-.attribute-name-wrapper span{
+.attribute-name-wrapper span {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -133,36 +139,36 @@ const handleAdd = () => {
   align-items: center;
   height: 70%;
   width: 90%;
-  border-top: 1px solid #DCDCDC;
+  border-top: 1px solid #dcdcdc;
   position: relative;
 }
 
 .text-input input {
   width: 100%;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    padding-left: 3rem;
-    font-size: 1.5rem;
-    text-align: center;
-    margin-top: 2rem;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding-left: 3rem;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 2rem;
 }
 
 .image-input {
   display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s ease;
-    position: relative;
-    width: 100%;
-    height: auto;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  position: relative;
+  width: 100%;
+  height: auto;
 }
 
 /* 이미지 아이콘 색 */
-.fa-solid{
+.fa-solid {
   color: gray;
 }
-.file-upload span{
+.file-upload span {
   color: gray;
 }
 
@@ -183,7 +189,7 @@ const handleAdd = () => {
 }
 
 /* 추가 버튼 */
-.attribute-name-wrapper button{
+.attribute-name-wrapper button {
   margin-left: 1rem;
   padding: 0.5rem 1rem;
   background-color: var(--pink-color);
@@ -204,18 +210,17 @@ const handleAdd = () => {
 .custom-file-upload {
   display: flex;
   justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    gap: 1rem;
-    cursor: pointer;
-    font-size: 1.4rem;
-    height: 20rem;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  gap: 1rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  height: 20rem;
 }
-.custom-file-upload span{
+.custom-file-upload span {
   color: gray;
 }
-
 
 .image-input input[type='file'] {
   display: none;
@@ -226,7 +231,7 @@ const handleAdd = () => {
     font-size: 1.4rem;
   }
 
-  .custom-file-upload span{
+  .custom-file-upload span {
     color: gray;
   }
 }

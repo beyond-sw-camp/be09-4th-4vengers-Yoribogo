@@ -1,7 +1,6 @@
 <template>
   <div class="recipe-board-detail-view">
     <header>
-      <NotificationButton></NotificationButton>
       <ProfileButton></ProfileButton>
       <HomeButton></HomeButton>
     </header>
@@ -74,6 +73,7 @@
       <!-- 댓글 입력 -->
       <form class="comment-input" @submit.prevent="submitComment">
         <input
+          id="comment-text-input"
           v-model="newComment"
           placeholder="댓글을 입력하세요"
           style="width: 92%; border: 1px solid gray; height: 5rem; padding: 2rem"
@@ -91,7 +91,6 @@
 <script setup>
 import HomeButton from '@/components/common/HomeButton.vue'
 import ProfileButton from '@/components/common/ProfileButton.vue'
-import NotificationButton from '@/components/common/NotificationButton.vue'
 import MainBoard from '@/components/common/MainBoard.vue'
 import BackButton from '@/components/common/BackButton.vue'
 import RecipeManual from '@/components/recipe/RecipeManual.vue'
@@ -101,10 +100,10 @@ import WriteRecommentInput from '@/components/recipe-board/WriteRecommentInput.v
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useTokenStore } from '@/stores/tokenStore'
 
 const isImageLoading = ref(true)
 const isImageError = ref(false)
+const isLogin = ref(false)
 
 const route = useRoute()
 const router = useRouter()
@@ -127,12 +126,12 @@ const fetchData = async () => {
   try {
     commentInfo.value = []
     userProfiles.value = []
-    const recipeResponse = (await axios.get(`/api/recipe-board/detail/${route.params.board_id}`))
+    const recipeResponse = (await axios.get(`/boot/api/recipe-board/detail/${route.params.board_id}`))
       .data
     if (recipeResponse.success) {
       menuInfo.value = recipeResponse.data
       menuImageSrc.value = menuInfo.value.board_image || defaultImage.value
-      const writerResponse = (await axios.get(`/api/users/${menuInfo.value.user_id}/profile`)).data
+      const writerResponse = (await axios.get(`/boot/api/users/${menuInfo.value.user_id}/profile`)).data
       if (writerResponse.success) {
         writerProfiles.value = writerResponse.data
         profileImageSrc.value = writerProfiles.value.profileImage || defaultImage.value
@@ -142,19 +141,17 @@ const fetchData = async () => {
 
     // 댓글 정보 가져오기 (배열 형태로 바로 반환됨)
     const commentsResponse = (
-      await axios.get(`/api/recipe-board/${route.params.board_id}/comments`)
+      await axios.get(`/boot/api/recipe-board/${route.params.board_id}/comments`)
     ).data
 
-    console.log('commentsResponse: 댓글 작성ㅎㅎ', commentsResponse)
     if (commentsResponse.success) {
       commentInfo.value = commentsResponse.data // 댓글 데이터를 저장
-    } else {
-      console.error('Failed to fetch comments:', commentsResponse.message)
     }
 
-    commentInfo.value.forEach(async (comment) => {
+    // forEach 대신 for...of 사용
+    for (const comment of commentInfo.value) {
       try {
-        const profileResponse = (await axios.get(`/api/users/${comment['user_id']}/profile`)).data
+        const profileResponse = (await axios.get(`/boot/api/users/${comment['user_id']}/profile`)).data
         if (profileResponse.success) {
           // userProfiles 배열에 하나씩 추가
           userProfiles.value.push({
@@ -169,7 +166,7 @@ const fetchData = async () => {
       } catch (error) {
         console.error('유저 정보 불러오는 중 에러 발생', error)
       }
-    })
+    }
   } catch (error) {
     console.error('Failed to fetch data:', error)
   }
@@ -187,7 +184,7 @@ const handleAddComment = async (newComment) => {
 
     // 서버로 새 댓글 전송
     const response = (
-      await axios.post(`/api/recipe-board/${route.params.board_id}/comments`, commentData)
+      await axios.post(`/boot/api/recipe-board/${route.params.board_id}/comments`, commentData)
     ).data
 
     // 새로운 댓글을 로컬에 추가
@@ -223,11 +220,14 @@ const handleImageLoad = () => {
 }
 
 onMounted(() => {
-  const tokenStore = useTokenStore()
-  if (!tokenStore.token.accessToken) {
+  if (localStorage.getItem('token')) {
+    isLogin.value = true
+  } else {
     alert('마이페이지를 보시려면 로그인이 필요합니다!')
-    router.push('/login')
+    router.push('/login-page')
+    return
   }
+
   fetchData()
 })
 </script>

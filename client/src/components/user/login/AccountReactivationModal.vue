@@ -19,43 +19,36 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { reactivateUserByAuthId } from '@/api/user'; // user.js에서 함수 임포트
-import YesNoButton from '@/components/common/YesNoButton.vue';
-const emit = defineEmits(['close']);
+import { reactivateUserByAuthId } from '@/api/user' // user.js에서 함수 임포트
+import YesNoButton from '@/components/common/YesNoButton.vue'
+const emit = defineEmits(['close'])
 
 const props = defineProps({
-  userAuthId: String,
-});
+  userAuthId: String
+})
 
 // 재활성화 함수
 const reactivateUser = async () => {
   try {
-    // 디버깅용 로그 추가 (userAuthId 값 확인)
-    console.log("재활성화 시도, userAuthId:", props.userAuthId);
-
     // reactivateUserByAuthId 함수 호출
-    const response = await reactivateUserByAuthId(props.userAuthId);
-
-    // API 응답 확인 로그
-    console.log("API 응답:", response);
+    const response = await reactivateUserByAuthId(props.userAuthId)
 
     if (response.success) {
-      alert('계정이 재활성화되었습니다. 다시 로그인 해주세요.');
-      closeModal();
+      alert('계정이 재활성화되었습니다. 다시 로그인 해주세요.')
+      closeModal()
     } else {
-      alert('재활성화에 실패했습니다.');
+      alert('재활성화에 실패했습니다.')
     }
   } catch (error) {
-    alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
-    console.error('reactivateUser 에러:', error.response ? error.response.data : error.message); // 오류 로그 출력
+    alert('서버 오류가 발생했습니다. 다시 시도해주세요.')
+    console.error('reactivateUser 에러:', error.response ? error.response.data : error.message) // 오류 로그 출력
   }
-};
+}
 
 // 모달 닫기 함수
 const closeModal = () => {
-  emit('close');
-};
+  emit('close')
+}
 </script>
 
 <style scoped>

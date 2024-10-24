@@ -71,9 +71,6 @@ const props = defineProps({
   }
 })
 
-console.log(props.comments)
-console.log(props.userInfo)
-
 // 기본 프로필 이미지
 const defaultImage = 'https://yoribogobucket.s3.ap-northeast-2.amazonaws.com/default_profile.png'
 

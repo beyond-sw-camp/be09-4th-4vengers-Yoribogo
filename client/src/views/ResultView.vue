@@ -20,8 +20,8 @@
           >
           </ResultBoard>
         </div>
-       <!-- 로그인된 사용자만 ResponseBoard가 보이도록 설정 -->
-       <div class="response-board-container" v-show="!isLoading && isLoggedIn">
+        <!-- 로그인된 사용자만 ResponseBoard가 보이도록 설정 -->
+        <div class="response-board-container" v-show="!isLoading && isLoggedIn">
           <ResponseBoard
             :class="{ flipped: isFlipped }"
             @good="postRecommendData('GOOD')"
@@ -58,7 +58,6 @@ const isLoading = ref(true)
 const tokenStore = useTokenStore()
 const isLoggedIn = ref(false)
 
-
 const menuName = ref('')
 const menuImage = ref(
   'https://cdxarchivephoto.s3.ap-northeast-2.amazonaws.com/1728804967802_a4720492-2dd2-4e59-8f31-79b55e6a169e_%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB%E1%84%8B%E1%85%B5%E1%84%86%E1%85%B5%E1%84%8C%E1%85%B5.svg'
@@ -66,10 +65,10 @@ const menuImage = ref(
 const recipeId = ref(1)
 
 const fetchRecommendedMenu = async () => {
-  let requestData;
+  let requestData
 
   try {
-    const questionResponse = JSON.parse(localStorage.getItem('question_responses'));
+    const questionResponse = JSON.parse(localStorage.getItem('question_responses'))
 
     if (questionResponse) {
       requestData = {
@@ -78,33 +77,33 @@ const fetchRecommendedMenu = async () => {
         third: questionResponse.question_3,
         fourth: questionResponse.question_4,
         fifth: questionResponse.question_5
-      };
+      }
     } else {
-      throw new Error('세션이 만료되었습니다.');
+      throw new Error('세션이 만료되었습니다.')
     }
 
-    const response = (await axios.post('/api/recipes/recommend', requestData)).data;
-    
+    const response = (await axios.post('/boot/api/recipes/recommend', requestData)).data
+
     if (response.success) {
-      menuName.value = response.data.menu_name;
-      if (response.data.menu_image) menuImage.value = response.data.menu_image;
-      recipeId.value = response.data.recipe_id;
-      isLoading.value = false;
-      localStorage.removeItem('question_responses');
+      menuName.value = response.data.menu_name
+      if (response.data.menu_image) menuImage.value = response.data.menu_image
+      recipeId.value = response.data.recipe_id
+      isLoading.value = false
+      localStorage.removeItem('question_responses')
     } else {
-      throw new Error('잘못된 요청 사항이거나 답변하지 않은 문항이 있습니다.');
+      throw new Error('잘못된 요청 사항이거나 답변하지 않은 문항이 있습니다.')
     }
   } catch (error) {
-    console.error('오류 발생:', error);
-    alert(error.message);
-    router.push('/question/1');
+    console.error('오류 발생:', error)
+    alert(error.message)
+    router.push('/question/1')
   }
 }
 
 const postRecommendData = async (satisfaction) => {
   try {
     const userId = JSON.parse(localStorage.getItem('token')).userId
-    await axios.post('/api/recommended-menus', {
+    await axios.post('/boot/api/recommended-menus', {
       satisfaction: satisfaction,
       user_id: userId,
       recipe_id: recipeId.value
@@ -118,8 +117,8 @@ const postRecommendData = async (satisfaction) => {
 }
 
 onMounted(() => {
-   // 토큰이 있는지 확인하여 로그인 여부 설정
-   isLoggedIn.value = !!tokenStore.token.accessToken
+  // 토큰이 있는지 확인하여 로그인 여부 설정
+  isLoggedIn.value = !!tokenStore.token.accessToken
   fetchRecommendedMenu()
 })
 </script>

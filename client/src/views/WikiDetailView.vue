@@ -1,7 +1,6 @@
 <template>
   <div class="wiki-detail-view">
     <header>
-      <NotificationButton></NotificationButton>
       <ProfileButton></ProfileButton>
       <HomeButton></HomeButton>
     </header>
@@ -43,7 +42,6 @@
 <script setup>
 import HomeButton from '@/components/common/HomeButton.vue'
 import ProfileButton from '@/components/common/ProfileButton.vue'
-import NotificationButton from '@/components/common/NotificationButton.vue'
 import MainBoard from '@/components/common/MainBoard.vue'
 import BackButton from '@/components/common/BackButton.vue'
 import RecipeManual from '@/components/recipe/RecipeManual.vue'
@@ -54,6 +52,7 @@ import { useRoute } from 'vue-router'
 
 const isImageLoading = ref(true)
 const isImageError = ref(false)
+const isLogin = ref(false)
 
 const route = useRoute()
 
@@ -67,13 +66,73 @@ const defaultImage = ref(
 
 const fetchData = async () => {
   try {
-    const recipeResponse = (await axios.get(`/api/recipes/${route.params.recipeId}`)).data
+    const recipeResponse = (await axios.get(`/boot/api/recipes/${route.params.recipeId}`)).data
     if (recipeResponse.success) {
       menuInfo.value = recipeResponse.data
       menuImageSrc.value = menuInfo.value.menu_image || defaultImage.value
-      const manualResponse = (await axios.get(`/api/manuals?recipe=${route.params.recipeId}`)).data
+
+      const manualResponse = (await axios.get(`/boot/api/manuals?recipe=${route.params.recipeId}`)).data
       if (manualResponse.success) {
         manualList.value = manualResponse.data
+      } else {
+        // Fetch the manual using the Fetch API for streaming response
+        const response = await fetch(`/boot/api/manuals/ai?recipe=${route.params.recipeId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            menu_name: menuInfo.value.menu_name,
+            menu_ingredient: menuInfo.value.menu_ingredient
+          })
+        })
+
+        const data = response.body
+        const reader = data?.getReader()
+        const decoder = new TextDecoder()
+        const maxLength = 6
+        let done = false
+        let lastMessage = ''
+        let text = ''
+
+        while (!done && reader) {
+          const { value, done: doneReading } = await reader.read()
+          done = doneReading
+          const chunkValue = decoder.decode(value)
+          lastMessage += chunkValue
+
+          text = lastMessage.replaceAll('data:', '').replace(/\n/g, '')
+
+          // 공백만 있을 경우
+          if (text.trim() === '') {
+            lastMessage = ''
+            continue
+          }
+
+          // 문장이 문자.으로 끝날 경우
+          if (/[a-zA-Z가-힣]\.$/.test(text)) {
+            manualList.value[manualList.value.length - 1].manual_content = text.trim()
+            lastMessage = ''
+            text = ''
+            // 6개 이하일 때 새로운 빈 항목 추가
+            if (manualList.value.length < maxLength) {
+              manualList.value.push({ manual_content: '', manual_image: null })
+            }
+          }
+          // 이외의 경우 (수집 중인 문장이므로 마지막 항목 업데이트)
+          else {
+            if (manualList.value.length > 0) {
+              manualList.value[manualList.value.length - 1].manual_content = text.trim()
+            } else {
+              manualList.value.push({ manual_content: text.trim(), manual_image: null })
+            }
+          }
+        }
+
+        // 마지막 text가 문자.으로 끝나지 않을 경우에도 처리
+        if (text !== '') {
+          manualList.value[manualList.value.length - 1].manual_content = text.trim()
+        }
       }
     }
   } catch (error) {
@@ -94,8 +153,23 @@ const handleImageLoad = () => {
   isImageError.value = false
 }
 
-onMounted(() => {
-  fetchData()
+let eventSource = null
+
+const handleImageUpdate = (event) => {
+  menuImageSrc.value = event.data
+
+  if (eventSource) {
+    eventSource.removeEventListener('image-update', handleImageUpdate)
+    eventSource.close() // 연결 종료
+  }
+}
+
+onMounted(async () => {
+  if (localStorage.getItem('token')) {
+    isLogin.value = true
+  }
+
+  await fetchData()
 })
 </script>
 

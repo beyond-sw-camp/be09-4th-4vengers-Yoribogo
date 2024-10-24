@@ -1,16 +1,23 @@
 <template>
   <div class="attribute-input-container">
     <div class="attribute-name-wrapper">
-      <span>{{ name }}</span>
+      <span>{{ props.name }}</span>
     </div>
     <div class="attribute-input-wrapper" @dragover.prevent @drop.prevent="handleFileDrop">
       <label for="file-upload" class="custom-file-upload">
         <i v-if="!uploadedImageUrl" class="fa-solid fa-image"></i>
         <!-- 이미지 미리보기 -->
-        <div v-if="uploadedImageUrl" style="display: flex; justify-content: center; align-items: center;">
-          <img :src="uploadedImageUrl" alt="미리보기 이미지" style="max-width: 50rem; max-height: 30rem;" />
+        <div
+          v-if="uploadedImageUrl"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <img
+            :src="uploadedImageUrl"
+            alt="미리보기 이미지"
+            style="max-width: 50rem; max-height: 30rem"
+          />
         </div>
-        <span v-if="!uploadedImageUrl">{{ placeholder }}</span>
+        <span v-if="!uploadedImageUrl">{{ props.placeholder }}</span>
       </label>
       <input id="file-upload" type="file" @change="handleFileChange" />
     </div>
@@ -18,9 +25,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const uploadedImageUrl = ref(''); // 이미지 URL 저장
+const uploadedImageUrl = ref('') // 이미지 URL 저장
 
 const props = defineProps({
   name: {
@@ -35,29 +42,27 @@ const props = defineProps({
     type: [String, Object], // 파일 또는 문자열을 허용
     default: ''
   }
-});
+})
 
-const emit = defineEmits(['update:modelValue']); // 상위 컴포넌트로 이벤트 전송
+const emit = defineEmits(['update:modelValue']) // 상위 컴포넌트로 이벤트 전송
 
 // 파일 선택 시 호출
 const handleFileChange = (event) => {
-  const file = event.target.files[0];
+  const file = event.target.files[0]
   if (file && file.type.startsWith('image/')) {
-    uploadedImageUrl.value = URL.createObjectURL(file); // 이미지 미리보기 URL 생성
-    console.log("파일 변경이 감지됨 by click", file.name);
-    emit('update:modelValue', file); // 파일 자체를 상위 컴포넌트로 전달
+    uploadedImageUrl.value = URL.createObjectURL(file) // 이미지 미리보기 URL 생성
+    emit('update:modelValue', file) // 파일 자체를 상위 컴포넌트로 전달
   }
-};
+}
 
 // 드래그 앤 드롭 시 호출
 const handleFileDrop = (event) => {
-  const file = event.dataTransfer.files[0];
+  const file = event.dataTransfer.files[0]
   if (file && file.type.startsWith('image/')) {
-    uploadedImageUrl.value = URL.createObjectURL(file); // 이미지 미리보기 URL 생성
-    console.log("파일 변경이 감지됨 by drop", file.name);
-    emit('update:modelValue', file); // 파일 자체를 상위 컴포넌트로 전달
+    uploadedImageUrl.value = URL.createObjectURL(file) // 이미지 미리보기 URL 생성
+    emit('update:modelValue', file) // 파일 자체를 상위 컴포넌트로 전달
   }
-};
+}
 </script>
 
 <style scoped>

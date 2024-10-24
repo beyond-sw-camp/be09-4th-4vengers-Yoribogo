@@ -23,46 +23,45 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useTokenStore } from '@/stores/tokenStore'; // Pinia store 사용
-import { fetchUserDetailProfile } from '@/api/user'; // API 호출 함수
+import { ref, onMounted } from 'vue'
+import { useTokenStore } from '@/stores/tokenStore' // Pinia store 사용
+import { fetchUserDetailProfile } from '@/api/user' // API 호출 함수
 
-const userProfile = ref(null); // 사용자 프로필 데이터
+const userProfile = ref(null) // 사용자 프로필 데이터
 
 // Pinia store에서 토큰 정보 가져오기
-const tokenStore = useTokenStore();
+const tokenStore = useTokenStore()
 
 // API를 호출해 사용자 프로필 정보 가져오기
 const loadUserProfile = async () => {
   try {
-    const userId = tokenStore.token.userId;
-    const accessToken = tokenStore.token.accessToken;
+    const userId = tokenStore.token.userId
+    const accessToken = tokenStore.token.accessToken
 
     if (userId && accessToken) {
-      const profileData = await fetchUserDetailProfile(userId, accessToken);
+      const profileData = await fetchUserDetailProfile(userId, accessToken)
       if (profileData.success) {
         userProfile.value = {
-          profileImage: profileData.data.profileImage || defaultProfileImage,
+          profileImage: profileData.data.profileImage,
           nickname: profileData.data.nickname || '닉네임 없음',
-          tierImage: profileData.data.tierImage || defaultTierImage,
-        };
+          tierImage: profileData.data.tierImage
+        }
       } else {
-        console.error('프로필 정보를 불러오는 데 실패했습니다.');
+        console.error('프로필 정보를 불러오는 데 실패했습니다.')
       }
     } else {
-      console.error('userId 또는 accessToken이 없습니다.');
+      console.error('userId 또는 accessToken이 없습니다.')
     }
   } catch (error) {
-    console.error('프로필 정보를 가져오는 중 오류 발생:', error);
+    console.error('프로필 정보를 가져오는 중 오류 발생:', error)
   }
-};
+}
 
 // 컴포넌트가 마운트될 때 프로필 정보 불러오기
 onMounted(() => {
-  loadUserProfile();
-});
+  loadUserProfile()
+})
 </script>
-
 
 <style scoped>
 .profile-container {
@@ -88,7 +87,9 @@ onMounted(() => {
   border-radius: 50%;
   object-fit: cover;
   border: 0.5rem solid white;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease; /* 부드러운 전환 효과 */
 }
 
 .avatar:hover img {

@@ -94,6 +94,6 @@ const goActiveTab = (tab) => {
 @media screen and (max-width: 600px) {
   .menu-container {
     margin-right: 4rem;
-  } 
+  }
 }
 </style>

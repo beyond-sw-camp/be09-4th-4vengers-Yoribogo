@@ -1,3 +1,6 @@
+![image](https://github.com/user-attachments/assets/58acb2fe-4a0c-4028-b979-572142a5703b)
+
+
 # 목차
 
 1. [팀 소개](#팀-소개)
@@ -8,22 +11,23 @@
    - [Frontend](#4-frontend)
    - [DevOps](#5-devops)
    - [Tool](#6-tool)
-3. [프로젝트 개요](#프로젝트-개요)
+3. [깃 브랜치 전략](#깃-브랜치-전략)
+4. [프로젝트 개요](#프로젝트-개요)
    - [프로젝트 소개](#프로젝트-소개)
    - [프로젝트 배경](#프로젝트-배경)
    - [유사 서비스와의 차별성](#유사-서비스와의-차별성)
-4. [DDD](#ddd)
+5. [DDD](#ddd)
    - [Bounded Context](#bounded-context)
    - [연관 관계 매핑](#연관-관계-매핑)
-5. [WBS](#wbs)
-6. [시스템 아키텍쳐](#시스템-아키텍쳐)
-7. [UI 설계](#ui-설계)
-8. [데이터베이스 모델링](#데이터베이스-모델링)
+6. [WBS](#wbs)
+7. [시스템 아키텍쳐](#시스템-아키텍쳐)
+8. [UI 설계](#ui-설계)
+9. [데이터베이스 모델링](#데이터베이스-모델링)
    - [개념 모델링](#개념-모델링)
    - [논리 모델링](#논리-모델링)
    - [물리 모델링](#물리-모델링)
-9. [JenkinsScript](#jenkins-script)
-10. [결과 화면](#결과-화면)
+10. [JenkinsScript](#jenkins-script)
+11. [결과 화면](#결과-화면)
 11. [동료 평가](#동료-평가)
 
 ## Team _4vengers_<a id="팀-소개">
@@ -32,7 +36,7 @@
 | <img src="https://github.com/user-attachments/assets/5a0d8aa8-0a1f-41f3-a93f-b2985c1765d6" height="100"/> | <img src="https://github.com/user-attachments/assets/79d48cf7-bdd4-4ec1-831c-bb57d5d9f57d" height="100"/> | <img src="https://github.com/user-attachments/assets/74133185-5305-4361-a9e0-52e76f67de3d" height="100"/> | <img src="https://github.com/user-attachments/assets/a17e5ef4-f7be-48fb-ae41-5cd3b27f5918" height="100"/> | <img src="https://github.com/user-attachments/assets/00ef7243-5ac8-4f3a-8b43-2271ee79665c" height="100"/> | <img src="https://github.com/user-attachments/assets/8381e8af-6a25-4f00-8a5e-454323d1f340" height="100"/> |
 | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | 박경희 | 윤채연 | 전기범 | 장민근 | 조창욱 | 최해관 | 
-| [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/iwillbfine) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/yncayn) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/woodart8) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/caolian2003) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/Chochanguk) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/Haegwan-Choe) |
+| [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/iwillbfine) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/yncayn) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/woodart8) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/caolian2003) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/Chochanguk) | [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/woodart8) |
 | ISTP | ISFP | INFJ | INTP | ESTJ | ENTJ |
 
 ---
@@ -41,9 +45,9 @@
 
 ### 1. Backend <a id="1-backend"></a>
 
-| Java 17                                                                       | Spring Boot                                                                                              | Spring Data JPA                                                                                                 | Hibernate                                                                       | Gradle                                                                 | JUnit5                                                                                             | OpenAI                                                                                       | SSE                                                                                         |
-| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| ![Java](https://img.shields.io/badge/Java-17-007396.svg?&logo=java&color=red) | ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F.svg?&logo=spring-boot&color=lightgreen) | ![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-6DB33F.svg?&logo=spring-data-JPA) | ![Hibernate](https://img.shields.io/badge/Hibernate-59666C.svg?&logo=hibernate) | ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?&logo=gradle) | ![JUnit5](https://img.shields.io/badge/JUnit5-25A162.svg?&logo=junit5&logoColor=white&color=green) | ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white) | ![SSE](https://img.shields.io/badge/SSE-grey.svg) |
+| Java 17                                                                       | Spring Boot                                                                                              | Spring Data JPA                                                                                                 | Hibernate                                                                       | Gradle                                                                 | JUnit5                                                                                             | OpenAI                                                                                       | SSE                                                                                        | Spring WebFlux                                                                              |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| ![Java](https://img.shields.io/badge/Java-17-007396.svg?&logo=java&color=red) | ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F.svg?&logo=spring-boot&color=lightgreen) | ![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-6DB33F.svg?&logo=spring-data-JPA) | ![Hibernate](https://img.shields.io/badge/Hibernate-59666C.svg?&logo=hibernate) | ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?&logo=gradle) | ![JUnit5](https://img.shields.io/badge/JUnit5-25A162.svg?&logo=junit5&logoColor=white&color=green) | ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white) | ![SSE](https://img.shields.io/badge/SSE-Server%20Sent%20Event-grey.svg?&logo=server&color=blue) | ![Spring WebFlux](https://img.shields.io/badge/Spring_WebFlux-6AAD3D.svg) |
 
 ### 2. Security <a id="2-security"></a>
 
@@ -65,9 +69,9 @@
 
 ### 5. DevOps <a id="5-devops"></a>
 
-| Docker                                                                                    | Jenkins                                                                                            | Kubernetes                                                                                           |
-| ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| ![Docker](https://img.shields.io/badge/Docker-2496ED.svg?&logo=docker&logoColor=white)       | ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?logo=jenkins&logoColor=white)                 | ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5.svg?&logo=kubernetes&logoColor=white)      |
+| Docker                                                                                     | Jenkins                                                                                            | Kubernetes                                                                                       |
+| ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| ![Docker](https://img.shields.io/badge/Docker-2496ED.svg?&logo=docker&logoColor=white)      | ![Jenkins](https://img.shields.io/badge/Jenkins-D24939.svg?&logo=jenkins&logoColor=white)           | ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5.svg?&logo=kubernetes&logoColor=white) |
 
 
 ### 6. Tool <a id="6-tool"></a>
@@ -75,6 +79,26 @@
 | GitHub                                                                                          | DA#                                                                                              | IntelliJ IDEA                                                                                          | Visual Studio Code                                                                                  |
 | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"> &nbsp; | <img src="https://img.shields.io/badge/DA%23-0B6121.svg?style=flat&logo=draw.io&logoColor=white"> &nbsp; | ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=flat&logo=intellij-idea&logoColor=white) | ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=flat&logo=visual-studio-code&logoColor=white) |
+
+---
+
+## ⚙️ 깃 브랜치 전략<a id="깃-브랜치-전략">
+
+### 깃 플로우(Git-flow)
+
+<img src="https://github.com/user-attachments/assets/ff9fe80b-c684-496c-88fb-b2d0378adc78" heigh="200" />
+
+
+**Main**: 배포 가능한 안정적인 코드가 저장되는 브랜치로, 프로덕션 환경에 릴리즈될 코드는 이 브랜치에 머지됩니다.
+
+**Develop**: 개발 중인 코드가 모이는 브랜치로, 각종 기능(feature)들이 여기로 병합됩니다. 완성된 기능들은 이 브랜치에서 통합 테스트를 거쳐 Main으로 넘어가게 됩니다.
+
+**Feature Branches**: 개별 기능을 개발할 때 사용하는 브랜치들로, 이 브랜치들은 기능이 완성되면 Develop 브랜치에 병합됩니다.
+
+### 우리팀 깃 브랜치 전략 (깃 플로우)의 특징
+- 명확한 구조: 개발, 테스트, 배포 등의 단계가 명확하게 구분되기 때문에, 팀 내에서 역할 분담이나 작업 흐름을 쉽게 관리하여, 브랜치별로 책임을 명확히 할 수 있음.
+- 안정성: Main에 있는 코드는 테스트되고 최종 수정된 것만 반영되기 때문에 안정된 상태로 유지됨.
+- 동시 개발 지원: 각 기능을 독립적인 feature 브랜치에서 작업할 수 있어 충돌을 최소화할 수 있어 각 브랜치를 대기 시킬 필요가 없음.
 
 ---
 
@@ -168,15 +192,15 @@
 
 <details>
   <summary>나만의 레시피 게시판</summary>
-   
-<img width="1231" alt="스크린샷 2024-10-22 오후 4 17 07" src="https://github.com/user-attachments/assets/f8bbc4c5-5a36-403b-89eb-12a114782c9a">
 
+  ![나만의 레시피 게시판](https://github.com/user-attachments/assets/975fbc26-b7ac-4966-88f1-ad53c1e6a2bc)
 
 </details>
 
 <details>
   <summary>문의 게시판</summary>
-<img width="1055" alt="스크린샷 2024-10-22 오후 4 18 16" src="https://github.com/user-attachments/assets/f878cff6-3539-4ff2-bb3e-e76c3db2ec15">
+
+  ![문의 게시판](https://github.com/user-attachments/assets/e9833b51-96fd-406f-b7ed-c45a425a4cfd)
 
 </details>
 
@@ -295,6 +319,7 @@ pipeline {
 
 <h2>1. Jenkins CI/CD </h2>
   <details>
+      <summary>Yoribogo CI/CD</summary>
       <img src="https://github.com/user-attachments/assets/ea5e2a4d-892f-4b01-90de-dff5091c5a82" alt="">
   </details>
           
@@ -374,7 +399,7 @@ pipeline {
 
 <details>
    <summary>4.3 요리 레시피 생성 비동기 처리</summary>
-   <img src="https://github.com/user-attachments/assets/346b8687-0a67-41c9-a7a1-ca28b38945fe" alt="">
+   <img src="https://github.com/user-attachments/assets/7be0f62e-061e-47c5-a649-335e1f57ce3d" alt="">
 </details>
 
 <details>
@@ -437,7 +462,7 @@ pipeline {
 </details>
 
 <details>
-  <summary>6.3 회원탈퇴</summary>
+  <summary>6.3 회원탈퇴 및 재활성화</summary>
   <img src="https://github.com/user-attachments/assets/ac3110c6-23ac-4115-acb5-64dfe070ea92" alt="">
 </details>
 

@@ -8,8 +8,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-
 // 아이콘 클래스를 받아오는 props 정의
 const props = defineProps({
   iconClass: {

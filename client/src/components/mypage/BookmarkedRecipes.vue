@@ -14,9 +14,9 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
-import MenuItem from '../recipe/MenuItem.vue';
+import MenuItem from '../recipe/MenuItem.vue'
 import { useRouter } from 'vue-router' // Vue Router 사용
 
 const router = useRouter() // 라우터 인스턴스 가져오기
@@ -36,7 +36,7 @@ const goDetail = (recipeId) => {
   router.push(`/wiki/${recipeId}`)
 }
 </script>
-  
+
 <style scoped>
 .not-found {
   display: flex;
@@ -71,4 +71,3 @@ const goDetail = (recipeId) => {
   }
 }
 </style>
-  

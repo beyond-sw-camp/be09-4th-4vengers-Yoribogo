@@ -6,12 +6,17 @@
     <div class="back">
       <img :src="props.img" alt="Image" />
       <span class="menu-name">{{ props.text }}</span>
+      <button class="go-wiki-detail-btn" @click="goWikiDetail">
+        <span>레시피 확인하러 가기</span>
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   img: {
@@ -28,6 +33,8 @@ const props = defineProps({
   }
 })
 
+const router = useRouter()
+
 const bgImg =
   'https://cdxarchivephoto.s3.ap-northeast-2.amazonaws.com/1728805407561_0d689efb-7da9-461f-987a-6996c392361d_%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC.svg'
 
@@ -38,6 +45,10 @@ const isFlipped = ref(false)
 const flipCard = () => {
   isFlipped.value = !isFlipped.value
   emit('flipped')
+}
+
+const goWikiDetail = () => {
+  router.push(`/wiki/${props.recipeId}`)
 }
 </script>
 
@@ -107,6 +118,24 @@ const flipCard = () => {
   font-size: 4rem;
 }
 
+.go-wiki-detail-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  color: var(--red-color);
+  cursor: pointer;
+}
+
+.go-wiki-detail-btn i {
+  font-size: 1.8rem;
+}
+
 /* 데스크탑 */
 @media screen and (max-width: 1920px) {
   .result-board {
@@ -143,6 +172,14 @@ const flipCard = () => {
   .result-board .menu-name {
     font-size: 3.3rem;
   }
+
+  .go-wiki-detail-btn {
+    font-size: 1.65rem;
+  }
+
+  .go-wiki-detail-btn i {
+    font-size: 1.52rem;
+  }
 }
 
 @media screen and (max-width: 374px) {
@@ -158,6 +195,14 @@ const flipCard = () => {
   .result-board .menu-name {
     font-size: 3.2rem;
   }
+
+  .go-wiki-detail-btn {
+    font-size: 1.6rem;
+  }
+
+  .go-wiki-detail-btn i {
+    font-size: 1.5rem;
+  }
 }
 @media screen and (max-width: 320px) {
   .result-board {
@@ -171,6 +216,14 @@ const flipCard = () => {
 
   .result-board .menu-name {
     font-size: 3rem;
+  }
+
+  .go-wiki-detail-btn {
+    font-size: 1.5rem;
+  }
+
+  .go-wiki-detail-btn i {
+    font-size: 1.45rem;
   }
 }
 </style>

@@ -75,6 +75,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '3.0.1'
+
 }
 
 tasks.named('test') {

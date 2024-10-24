@@ -5,16 +5,17 @@
       <button @click="addItem">추가 +</button>
     </div>
     <div class="attribute-input-wrapper">
-      <input type="text" :placeholder="props.placeholder" v-model="inputValue"/>
-      
+      <input
+        id="attribute-input"
+        type="text"
+        :placeholder="props.placeholder"
+        v-model="inputValue"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-
-import { watch } from 'vue'
-
 const props = defineProps({
   name: {
     type: String,
@@ -30,26 +31,21 @@ const props = defineProps({
   }
 })
 
-
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 // 이벤트 상위 컴포넌트로 전송
-const emit = defineEmits(['add-item']);
-// 입력값 담기 
-const inputValue = ref('');
-
-
-
+const emit = defineEmits(['add-item'])
+// 입력값 담기
+const inputValue = ref('')
 
 // addItem 메서드 정의
-// addItem 버튼을 클릭하면 배열에 재료가 추가되고, 입력 필드는 다시 초기화되어 입력을 추가로 받을 수 있다. 
+// addItem 버튼을 클릭하면 배열에 재료가 추가되고, 입력 필드는 다시 초기화되어 입력을 추가로 받을 수 있다.
 const addItem = () => {
   if (inputValue.value) {
-    emit('add-item', inputValue.value);
-    inputValue.value = ''; // 입력 필드 초기화
+    emit('add-item', inputValue.value)
+    inputValue.value = '' // 입력 필드 초기화
   }
-};
-
+}
 </script>
 
 <style scoped>
@@ -60,7 +56,7 @@ const addItem = () => {
   height: fit-content;
 }
 
-.attribute-name-wrapper span{
+.attribute-name-wrapper span {
   display: flex;
   justify-content: center;
   align-items: center;

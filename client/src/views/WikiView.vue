@@ -1,7 +1,6 @@
 <template>
   <div class="wiki-view">
     <header>
-      <NotificationButton></NotificationButton>
       <ProfileButton></ProfileButton>
       <HomeButton></HomeButton>
     </header>
@@ -29,12 +28,11 @@
 <script setup>
 import HomeButton from '@/components/common/HomeButton.vue'
 import ProfileButton from '@/components/common/ProfileButton.vue'
-import NotificationButton from '@/components/common/NotificationButton.vue'
 import MainBoard from '@/components/common/MainBoard.vue'
 import SearchBar from '@/components/common/SearchBar.vue'
 import MenuItem from '@/components/recipe/MenuItem.vue'
 import PaginationComponent from '@/components/common/PaginationComponent.vue'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router' // Vue Router 사용
 import axios from 'axios'
 
@@ -45,13 +43,14 @@ const menuList = ref([])
 const pageInfo = ref({})
 
 const isEmpty = ref(true)
+const isLogin = ref(false)
 
 const fetchData = async (name, page) => {
   try {
     let response
     name === ''
-      ? (response = (await axios.get(`/api/recipes?page=${page}`)).data)
-      : (response = (await axios.get(`/api/recipes/search?name=${name}&page=${page}`)).data)
+      ? (response = (await axios.get(`/boot/api/recipes?page=${page}`)).data)
+      : (response = (await axios.get(`/boot/api/recipes/search?name=${name}&page=${page}`)).data)
     if (response.success) {
       menuList.value = response.data.content
       pageInfo.value = response.data.page
@@ -93,6 +92,12 @@ watch(
   },
   { immediate: true } // 즉시 호출
 )
+
+onMounted(() => {
+  if (localStorage.getItem('token')) {
+    isLogin.value = true
+  }
+})
 </script>
 
 <style scoped>

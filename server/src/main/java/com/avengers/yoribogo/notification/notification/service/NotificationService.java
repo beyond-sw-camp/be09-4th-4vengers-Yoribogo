@@ -10,7 +10,6 @@ import com.avengers.yoribogo.notification.weeklypopularrecipe.dto.WeeklyPopularR
 import com.avengers.yoribogo.notification.weeklypopularrecipe.repository.WeeklyPopularRecipeMongoRepository;
 import com.avengers.yoribogo.notification.weeklypopularrecipe.service.WeeklyPopularRecipeService;
 import com.avengers.yoribogo.recipeboard.domain.RecipeBoard;
-import com.avengers.yoribogo.recipeboard.recipeboard.dto.RecipeBoardEntity;
 import com.avengers.yoribogo.recipeboard.repository.RecipeBoardRepository;
 import com.avengers.yoribogo.user.domain.UserEntity;
 import com.avengers.yoribogo.user.repository.UserRepository;
@@ -23,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -45,7 +45,7 @@ public class NotificationService {
     }
 
     // SSE 연결 로직
-    private final List<SseEmitter> emitters = new ArrayList<>();
+    private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
     public SseEmitter subscribe() {
         SseEmitter emitter = new SseEmitter(0L);
@@ -72,12 +72,12 @@ public class NotificationService {
         return emitter;
     }
 
-    // 로그인된 사용자들에게 알림을 전송
-    public void sendNotificationToLoggedInUsers(String message) {
+    // 요리 위키 이미지 업데이트 알림을 전송
+    public void sendImageUpdateNotification(String message) {
         List<SseEmitter> deadEmitters = new ArrayList<>();
         for (SseEmitter emitter : emitters) {
             try {
-                emitter.send(SseEmitter.event().name("notification").data(message));
+                emitter.send(SseEmitter.event().name("image-update").data(message));
             } catch (IOException e) {
                 deadEmitters.add(emitter);  // 전송 실패한 emitter를 제거 목록에 추가
             }

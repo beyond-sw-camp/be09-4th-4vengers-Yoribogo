@@ -1,7 +1,6 @@
 <template>
   <div class="recipe-board-list-view">
     <header>
-      <NotificationButton></NotificationButton>
       <ProfileButton></ProfileButton>
       <HomeButton></HomeButton>
     </header>
@@ -19,7 +18,7 @@
             v-for="item in menuList"
             :key="item.board_id"
             :menuName="item.menu_name"
-            :menuImage="item.board_image"
+            :menuImage="item.board_image || ''"
             @click="goDetail(item.board_id)"
           ></MenuItem>
         </div>
@@ -33,13 +32,12 @@
 <script setup>
 import HomeButton from '@/components/common/HomeButton.vue'
 import ProfileButton from '@/components/common/ProfileButton.vue'
-import NotificationButton from '@/components/common/NotificationButton.vue'
 import MainBoard from '@/components/common/MainBoard.vue'
 import SearchBar from '@/components/common/SearchBar.vue'
 import MenuItem from '@/components/recipe/MenuItem.vue'
 import PaginationComponent from '@/components/common/PaginationComponent.vue'
 import WriteRecipeButton from '@/components/recipe-board/WriteRecipeButton.vue'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
@@ -48,6 +46,8 @@ const router = useRouter()
 
 const menuList = ref([]) // 전체 게시글
 const pageInfo = ref({})
+
+const isLogin = ref(false)
 
 // 게시글 목록 또는 검색 결과 가져오기
 const fetchData = async (page, searchQuery = '') => {
@@ -60,8 +60,7 @@ const fetchData = async (page, searchQuery = '') => {
       )
     } else {
       // 전체 게시글 조회
-      response = await axios.get(`/api/recipe-board/boards?pageNo=${page}`)
-      console.log(response.data)
+      response = await axios.get(`/boot/api/recipe-board/boards?pageNo=${page}`)
     }
 
     if (response.data.success) {
@@ -109,6 +108,12 @@ watch(
   },
   { immediate: true }
 )
+
+onMounted(() => {
+  if (localStorage.getItem('token')) {
+    isLogin.value = true
+  }
+})
 </script>
 
 <style scoped>

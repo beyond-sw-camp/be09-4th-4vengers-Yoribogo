@@ -51,20 +51,15 @@ const loadUserProfileImage = async () => {
   const accessToken = tokenStore.token.accessToken
 
   if (isLoggedIn.value) {
-    console.log('토큰 상태:', userAuthId, accessToken) // 로그로 토큰 상태 확인
-
     if (userAuthId && accessToken) {
       try {
         // 사용자 프로필 정보 가져오기
         const userProfile = await fetchUserByAuthId(userAuthId, accessToken)
-        console.log('userProfile 프로필 버튼', userProfile)
 
         // 프로필 이미지가 있으면 설정, 없으면 기본 이미지 설정
         if (userProfile.success && userProfile.data.profile_image) {
-          console.log('홈 네비의 사용자 프로필 사진: ', userProfile.data.profile_image)
           profileImage.value = userProfile.data.profile_image // 프로필 이미지 설정
         } else {
-          console.log('프로필 이미지가 없습니다. 기본 이미지를 사용합니다.')
           profileImage.value = defaultProfileImage // 기본 이미지로 설정
         }
       } catch (error) {
@@ -105,7 +100,7 @@ const goSignup = () => {
 
 // 회원가입 페이지로 이동
 const goLogin = () => {
-  router.push('/login')
+  router.push('/login-page')
 }
 
 // 마운트될 때 사용자 프로필 이미지 불러오기

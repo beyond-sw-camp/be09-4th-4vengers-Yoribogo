@@ -1,7 +1,6 @@
 <template>
   <div class="mypage-view">
     <header>
-      <NotificationButton class="notification-btn"></NotificationButton>
       <ProfileButton class="profile-btn"></ProfileButton>
       <HomeButton class="home-btn"></HomeButton>
     </header>
@@ -10,7 +9,10 @@
     <MainBoard :cur="'mypage'">
       <section class="user-profile-section">
         <!-- 다른 컴포넌트들 -->
-        <UserProfile @openEditProfileModal="openEditProfileModal" @openAccountOptionsModal="openAccountOptionsModal" />
+        <UserProfile
+          @openEditProfileModal="openEditProfileModal"
+          @openAccountOptionsModal="openAccountOptionsModal"
+        />
       </section>
 
       <!-- 탭 이름 및 탭 컴포넌트 추가 -->
@@ -41,156 +43,161 @@
 
     <!-- 회원 관련 모달들 -->
     <ProfileEditModal v-if="isEditProfileModalOpen" @close="closeEditProfileModal" />
-    <AccountOptionsModal v-if="isAccountOptionsModalOpen"
+    <AccountOptionsModal
+      v-if="isAccountOptionsModalOpen"
       @close="closeAccountOptionsModal"
       @openChangePasswordModal="openChangePasswordModal"
       @openAccountDeactivationModal="openAccountDeactivationModal"
     />
     <ChangePasswordModal v-if="isChangePasswordModalOpen" @close="closeChangePasswordModal" />
-    <AccountDeactivationModal v-if="isAccountDeactivationModalOpen" @close="closeAccountDeactivationModal" />
+    <AccountDeactivationModal
+      v-if="isAccountDeactivationModalOpen"
+      @close="closeAccountDeactivationModal"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router'; // vue-router 임포트
-import { useTokenStore } from '@/stores/tokenStore'; // Pinia store 사용
-import axios from 'axios';
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router' // vue-router 임포트
+import { useTokenStore } from '@/stores/tokenStore' // Pinia store 사용
+import axios from 'axios'
+//component
+import HomeButton from '@/components/common/HomeButton.vue'
+import MainBoard from '@/components/common/MainBoard.vue'
+import ProfileButton from '@/components/common/ProfileButton.vue'
 
-import HomeButton from '@/components/common/HomeButton.vue';
-import MainBoard from '@/components/common/MainBoard.vue';
-import ProfileButton from '@/components/common/ProfileButton.vue';
-import NotificationButton from '@/components/common/NotificationButton.vue';
-
-// 회원 프로필 관련 모달창 
-import UserProfile from '@/components/user/profile/UserProfile.vue';
-import ProfileEditModal from '@/components/user/profile/ProfileEditModal.vue';
-import ChangePasswordModal from '@/components/user/profile/ChangePasswordModal.vue';
-import AccountDeactivationModal from '@/components/user/profile/AccountDeactivationModal.vue';
-import AccountOptionsModal from '@/components/user/profile/AccountOptionsModal.vue';
+// 회원 프로필 관련 모달창
+import UserProfile from '@/components/user/profile/UserProfile.vue'
+import ProfileEditModal from '@/components/user/profile/ProfileEditModal.vue'
+import ChangePasswordModal from '@/components/user/profile/ChangePasswordModal.vue'
+import AccountDeactivationModal from '@/components/user/profile/AccountDeactivationModal.vue'
+import AccountOptionsModal from '@/components/user/profile/AccountOptionsModal.vue'
 
 // 탭에 보여줄 컴포넌트들 import
-import PaginationComponent from '@/components/common/PaginationComponent.vue';
+import PaginationComponent from '@/components/common/PaginationComponent.vue'
 
-const currentTab = ref("북마크한 레시피");
+const currentTab = ref('북마크한 레시피')
 
 /* 모달 상태관리 */
-const isEditProfileModalOpen = ref(false);
-const isAccountOptionsModalOpen = ref(false);
-const isChangePasswordModalOpen = ref(false);
-const isAccountDeactivationModalOpen = ref(false);
+const isEditProfileModalOpen = ref(false)
+const isAccountOptionsModalOpen = ref(false)
+const isChangePasswordModalOpen = ref(false)
+const isAccountDeactivationModalOpen = ref(false)
 
 const openEditProfileModal = () => {
-  console.log('openEditProfileModal called');
-  isEditProfileModalOpen.value = true;
-};
+  isEditProfileModalOpen.value = true
+}
 
 const closeEditProfileModal = () => {
-  isEditProfileModalOpen.value = false;
-};
+  isEditProfileModalOpen.value = false
+}
 
 const openAccountOptionsModal = () => {
-  console.log('openAccountOptionsModal called');
-  isAccountOptionsModalOpen.value = true;
-};
+  isAccountOptionsModalOpen.value = true
+}
 
 const closeAccountOptionsModal = () => {
-  isAccountOptionsModalOpen.value = false;
-};
+  isAccountOptionsModalOpen.value = false
+}
 
 const openChangePasswordModal = () => {
-  isChangePasswordModalOpen.value = true;
-  closeAccountOptionsModal();
-};
+  isChangePasswordModalOpen.value = true
+  closeAccountOptionsModal()
+}
 
 const closeChangePasswordModal = () => {
-  isChangePasswordModalOpen.value = false;
-};
+  isChangePasswordModalOpen.value = false
+}
 
 const openAccountDeactivationModal = () => {
-  isAccountDeactivationModalOpen.value = true;
-  closeAccountOptionsModal();
-};
+  isAccountDeactivationModalOpen.value = true
+  closeAccountOptionsModal()
+}
 
 const closeAccountDeactivationModal = () => {
-  isAccountDeactivationModalOpen.value = false;
-};
+  isAccountDeactivationModalOpen.value = false
+}
 
 // 라우터 사용
 const route = useRoute()
 const router = useRouter()
 
-const userId = ref(null);
-const menuList = ref([]);
-const pageInfo = ref({});
-const isEmpty = ref(true);
+const userId = ref(null)
+const menuList = ref([])
+const pageInfo = ref({})
+const isEmpty = ref(true)
+const isLogin = ref(false)
 
 const fetchRecipes = async (userId, page) => {
   try {
-    let response;
+    let response
     if (currentTab.value === '만족했던 레시피') {
-      response = (await axios.get(`/api/recommended-menus?user=${userId}&page=${page}`)).data;
+      response = (await axios.get(`/boot/api/recommended-menus?user=${userId}&page=${page}`)).data
     } else if (currentTab.value === '북마크한 레시피') {
-      response = (await axios.get(`/api/recipe-board/favorites/users/${userId}?pageNo=${page}`)).data;
+      response = (await axios.get(`/boot/api/recipe-board/favorites/users/${userId}?pageNo=${page}`))
+        .data
     } else if (currentTab.value === '내가 작성한 레시피') {
-      response = (await axios.get(`/api/recipe-board/users/${userId}/boards?pageNo=${page}`)).data;
+      response = (await axios.get(`/boot/api/recipe-board/users/${userId}/boards?pageNo=${page}`)).data
     }
-    
+
     if (response.success) {
-      menuList.value = response.data.content;
-      pageInfo.value = response.data.page;
-      isEmpty.value = menuList.value.length === 0;
+      menuList.value = response.data.content
+      pageInfo.value = response.data.page
+      isEmpty.value = menuList.value.length === 0
     } else {
-      menuList.value = [];
-      isEmpty.value = true;
+      menuList.value = []
+      isEmpty.value = true
     }
   } catch (error) {
-    console.error('Failed to fetch data:', error);
+    console.error('Failed to fetch data:', error)
   }
-};
+}
 
 // 페이지 변경 핸들러
 const handlePageChange = (newPage) => {
-  router.push({ query: { ...route.query, page: newPage } });
-};
+  router.push({ query: { ...route.query, page: newPage } })
+}
 
 // 페이지 변경을 감지하고 fetch 요청
 watch(
   () => [route.query.page, route.path],
   async ([newPage, newPath]) => {
-    const page = parseInt(newPage || '1', 10);
-    
+    const page = parseInt(newPage || '1', 10)
+
     if (newPath.includes('satisfied')) {
-      currentTab.value = '만족했던 레시피';
+      currentTab.value = '만족했던 레시피'
     } else if (newPath.includes('bookmarked')) {
-      currentTab.value = '북마크한 레시피';
+      currentTab.value = '북마크한 레시피'
     } else if (newPath.includes('my-recipes')) {
-      currentTab.value = '내가 작성한 레시피';
+      currentTab.value = '내가 작성한 레시피'
     }
 
-    await fetchRecipes(userId.value, page);
+    await fetchRecipes(userId.value, page)
   }
-);
+)
 
 onMounted(() => {
-  const tokenStore = useTokenStore();
+  const tokenStore = useTokenStore()
   if (!tokenStore.token.accessToken) {
     alert('마이페이지를 보시려면 로그인이 필요합니다!');
-    router.push('/login');
+    router.push('/login-page');
+    return // 종료
   } else {
-    userId.value = JSON.parse(localStorage.getItem('token')).userId;
-    
+    userId.value = JSON.parse(localStorage.getItem('token')).userId
+    isLogin.value = true
+
     if (route.path.includes('satisfied')) {
-      currentTab.value = '만족했던 레시피';
+      currentTab.value = '만족했던 레시피'
     } else if (route.path.includes('bookmarked')) {
-      currentTab.value = '북마크한 레시피';
+      currentTab.value = '북마크한 레시피'
     } else if (route.path.includes('my-recipes')) {
-      currentTab.value = '내가 작성한 레시피';
+      currentTab.value = '내가 작성한 레시피'
     }
 
-    fetchRecipes(userId.value, 1);
+    fetchRecipes(userId.value, 1)
   }
-});
+})
 </script>
 
 <style scoped>
@@ -243,7 +250,7 @@ onMounted(() => {
 
 /* 탭 버튼 스타일 */
 .tab-button {
-  background-color: #DADADA;
+  background-color: #dadada;
   border: none;
   padding: 1rem 4.4rem;
   margin: 0 -1.75rem; /* 버튼들이 겹치게 하는 마진 */

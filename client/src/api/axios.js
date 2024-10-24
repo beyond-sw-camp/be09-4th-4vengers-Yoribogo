@@ -2,7 +2,8 @@ import axios from 'axios';
 import { useTokenStore } from '@/stores/tokenStore';  // Pinia 스토어 임포트
 
 const apiClient = axios.create({
-  baseURL: '/api',  // API 기본 경로
+  // baseURL: '/api',  // API 기본 경로
+  baseURL: '/boot/api',  // API 기본 경로
   timeout: 500000,  // 요청 타임아웃 설정 (50초)
 });
 

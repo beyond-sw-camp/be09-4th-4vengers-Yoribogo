@@ -17,7 +17,7 @@ const routes = [
     component: SignupView
   },
   {
-    path: '/login',
+    path: '/login-page',
     name: 'Login',
     component: LoginView
   },
@@ -58,7 +58,6 @@ const routes = [
     component: () => import('../views/RecipeBoardWriteView.vue'),
     props: true
   },
-
   {
     path: '/mypage',
     name: 'mypage',

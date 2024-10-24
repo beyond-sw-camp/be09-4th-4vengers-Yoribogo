@@ -1,0 +1,50 @@
+# .gitignore
+
+# mariadb가 설정된 .env 파일 무시
+.env
+init.sql
+
+
+# init.sql에 설정된 비밀번호
+# 다른 개발자들을 위해 예시 sql
+
+# CREATE DATABASE IF NOT EXISTS yoribogodb;
+
+# CREATE USER IF NOT EXISTS 'yoribogo'@'%' IDENTIFIED BY 'yoribogo'; 
+# ALTER USER 'yoribogo'@'%' IDENTIFIED BY 'yoribogo';
+# FLUSH PRIVILEGES;
+
+# GRANT ALL PRIVILEGES ON yoribogodb.* TO 'yoribogo'@'%';
+# FLUSH PRIVILEGES;
+
+# -- Drop tables if they exist
+# DROP TABLE IF EXISTS recipe_board_manual;
+# DROP TABLE IF EXISTS recipe_manual;
+# DROP TABLE IF EXISTS public_data_recipe;
+# DROP TABLE IF EXISTS ai_recipe;
+# DROP TABLE IF EXISTS recipe_board_favorite;
+# DROP TABLE IF EXISTS recipe_board_like;
+# DROP TABLE IF EXISTS recommended_menu;
+# DROP TABLE IF EXISTS recipe_board_recomment;
+# DROP TABLE IF EXISTS recipe_board_comment;
+# DROP TABLE IF EXISTS recipe_board;
+# DROP TABLE IF EXISTS recipe;
+# DROP TABLE IF EXISTS answer;
+# DROP TABLE IF EXISTS notification;
+# DROP TABLE IF EXISTS inquiry;
+# DROP TABLE IF EXISTS choice;
+# DROP TABLE IF EXISTS main_question;
+# DROP TABLE IF EXISTS user;
+# DROP TABLE IF EXISTS tier;
+
+
+# -- Table creation
+
+# CREATE TABLE tier (
+#     tier_id INT PRIMARY KEY AUTO_INCREMENT,
+#     tier_name VARCHAR(255) NOT NULL,
+#     tier_criteria BIGINT NOT NULL,
+#     tier_image TEXT NOT NULL
+# ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='티어' DEFAULT CHARSET=UTF8;
+
+# 나머지 테이블들

@@ -22,52 +22,46 @@
 </template>
 
 <script setup>
-import ProfileButton from '@/components/common/ProfileButton.vue';
-import NotificationButton from '@/components/common/NotificationButton.vue'; // 알림 버튼 추가
-import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { useTokenStore } from '@/stores/tokenStore'; // Pinia 스토어 임포트
+import ProfileButton from '@/components/common/ProfileButton.vue'
+import NotificationButton from '@/components/common/NotificationButton.vue' // 알림 버튼 추가
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { useTokenStore } from '@/stores/tokenStore' // Pinia 스토어 임포트
 
-const router = useRouter();
-const tokenStore = useTokenStore(); // Pinia 스토어 사용
+const router = useRouter()
+const tokenStore = useTokenStore() // Pinia 스토어 사용
 
-const isLoggedIn = ref(false); // 로그인 상태
-
-const emit = defineEmits(['open-login-modal'])
-
-const openLoginModal = () => {
-  emit('open-login-modal')
-}
+const isLoggedIn = ref(false) // 로그인 상태
 
 // 로그인 상태 확인
 const checkLoginStatus = () => {
-  isLoggedIn.value = !!tokenStore.token.accessToken; // accessToken이 존재하면 로그인 상태
-};
+  isLoggedIn.value = !!tokenStore.token.accessToken // accessToken이 존재하면 로그인 상태
+}
 
 // 로그인 상태 변화 감시
 watch(
   () => tokenStore.token.accessToken,
   () => {
-    checkLoginStatus(); // accessToken 변경 시 로그인 상태 확인
+    checkLoginStatus() // accessToken 변경 시 로그인 상태 확인
   },
   { immediate: true } // 초기에도 바로 실행
-);
+)
 
 // 위키 페이지로 이동
 const goWiki = () => {
-  router.push('/wiki');
-};
+  router.push('/wiki')
+}
 
 const goSignup = () => {
   router.push('/signup')
 }
 const goLogin = () => {
-  router.push('/login')
+  router.push('/login-page')
 }
 // 로고 클릭 시 홈으로 이동
 const goHome = () => {
-  router.push('/');
-};
+  router.push('/')
+}
 </script>
 
 <style scoped>

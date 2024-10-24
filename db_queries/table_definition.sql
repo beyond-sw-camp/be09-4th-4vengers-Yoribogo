@@ -1,6 +1,3 @@
--- 외래 키 제약을 비활성화
-SET FOREIGN_KEY_CHECKS = 0;
-
 -- Drop tables if they exist
 DROP TABLE IF EXISTS recipe_board_manual;
 DROP TABLE IF EXISTS recipe_manual;
@@ -21,8 +18,6 @@ DROP TABLE IF EXISTS main_question;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS tier;
 
--- 외래 키 제약을 다시 활성화
-SET FOREIGN_KEY_CHECKS = 1;
 
 -- Table creation
 
@@ -59,7 +54,7 @@ CREATE TABLE main_question (
     main_question_id INT PRIMARY KEY AUTO_INCREMENT,
     main_question_content VARCHAR(255) NOT NULL,
     user_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='메인질문' DEFAULT CHARSET=UTF8;
 
 CREATE TABLE choice (
@@ -80,7 +75,7 @@ CREATE TABLE inquiry (
     answers BIGINT DEFAULT 0,
     answer_status VARCHAR(255) DEFAULT 'PENDING' CHECK(answer_status IN ('PENDING', 'ANSWERED')), -- 답변 상태
     user_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='문의' DEFAULT CHARSET=UTF8;
 
 CREATE TABLE answer (
@@ -90,7 +85,7 @@ CREATE TABLE answer (
     answer_created_at TIMESTAMP NOT NULL,
     user_id BIGINT NOT NULL,
     inquiry_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (inquiry_id) REFERENCES inquiry(inquiry_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='답변' DEFAULT CHARSET=UTF8;
 
@@ -102,7 +97,7 @@ CREATE TABLE notification (
     notification_read_at TIMESTAMP,
     notification_content TEXT NOT NULL,
     user_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='알림' DEFAULT CHARSET=UTF8;
 
 CREATE TABLE recipe (
@@ -112,7 +107,7 @@ CREATE TABLE recipe (
     menu_image TEXT,
     menu_type VARCHAR(255) NOT NULL DEFAULT 'PUBLIC' CHECK(menu_type IN ('PUBLIC', 'AI')),
     user_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='요리레시피' DEFAULT CHARSET=UTF8;
 
 
@@ -126,7 +121,7 @@ CREATE TABLE recipe_board (
     recipe_board_created_at TIMESTAMP NOT NULL,
     recipe_board_status VARCHAR(255) NOT NULL DEFAULT 'ACTIVE' CHECK(recipe_board_status IN ('ACTIVE','INACTIVE')),
     user_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='나만의레시피' DEFAULT CHARSET=UTF8;
 
 CREATE TABLE recipe_board_comment (
@@ -137,7 +132,7 @@ CREATE TABLE recipe_board_comment (
     recipe_board_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     FOREIGN KEY (recipe_board_id) REFERENCES recipe_board(recipe_board_id),
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='나만의레시피댓글' DEFAULT CHARSET=UTF8;
 
 CREATE TABLE recipe_board_recomment (
@@ -148,7 +143,7 @@ CREATE TABLE recipe_board_recomment (
     recipe_board_comment_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     FOREIGN KEY (recipe_board_comment_id) REFERENCES recipe_board_comment(recipe_board_comment_id),
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='나만의레시피대댓글' DEFAULT CHARSET=UTF8;
 
 CREATE TABLE recommended_menu (
@@ -158,7 +153,7 @@ CREATE TABLE recommended_menu (
 	 recommended_menu_created_at TIMESTAMP NOT NULL,
     user_id BIGINT NOT NULL,
     recipe_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id) ON DELETE CASCADE
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='추천요리' DEFAULT CHARSET=UTF8;
 
@@ -167,7 +162,7 @@ CREATE TABLE recipe_board_like (
     like_created_at TIMESTAMP NOT NULL,
     user_id BIGINT NOT NULL,
     recipe_board_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (recipe_board_id) REFERENCES recipe_board(recipe_board_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='나만의레시피좋아요' DEFAULT CHARSET=UTF8;
 
@@ -176,7 +171,7 @@ CREATE TABLE recipe_board_favorite (
     recipe_board_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     FOREIGN KEY (recipe_board_id) REFERENCES recipe_board(recipe_board_id),
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 ) ENGINE=INNODB AUTO_INCREMENT=1 COMMENT='나만의레시피즐겨찾기' DEFAULT CHARSET=UTF8;
 
 CREATE TABLE ai_recipe (
